@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoGuard Audit Report - vulnerable_repo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm font-bold text-lg">
+          🛡️
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-extrabold text-slate-900 tracking-tight text-lg">RepoGuard</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Standalone Report</span>
+          </div>
+          <p class="text-xs text-slate-500">Protect Every Repository • University of Mumbai (ITL709)</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 text-xs">
+        <span class="text-slate-500">Generated: <strong class="text-slate-700">2026-10-17 19:39:55</strong></span>
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition shadow-xs">
+          🖨️ Print / Save PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="flex items-center space-x-2 text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">
+            <span>Repository Compliance Inspection</span>
+            <span>•</span>
+            <span>Static Analysis Mode</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-3">
+            <span>vulnerable_repo</span>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200">
+              Grade F (CRITICAL FAILURES)
+            </span>
+          </h1>
+          <p class="text-sm text-slate-500 mt-1 font-mono truncate max-w-2xl">C:\Users\sarah nandi\OneDrive\Pictures\Documents\Desktop\RepoGuard\samples\vulnerable_repo</p>
+        </div>
+
+        <div class="flex items-center space-x-6 self-start lg:self-center">
+          <div class="text-right">
+            <div class="text-xs uppercase font-semibold text-slate-400">Compliance Score</div>
+            <div class="text-4xl font-extrabold text-rose-600 tracking-tight">0<span class="text-xl text-slate-400 font-normal">/100</span></div>
+            <div class="text-xs text-slate-500 mt-0.5">23 issues identified</div>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center font-black text-2xl text-rose-600">
+            F
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-slate-100">
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Critical Alerts</div>
+          <div class="text-xl font-bold text-rose-600 mt-0.5">16</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Warnings</div>
+          <div class="text-xl font-bold text-amber-600 mt-0.5">7</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Project License</div>
+          <div class="text-sm font-bold text-slate-800 mt-1 truncate">MIT</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Dependencies</div>
+          <div class="text-xl font-bold text-indigo-600 mt-0.5">5</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Files Scanned</div>
+          <div class="text-xl font-bold text-slate-800 mt-0.5">6</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+          <div class="text-xs font-medium text-slate-500">Scan Duration</div>
+          <div class="text-xl font-bold text-slate-800 mt-0.5">0.35s</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-b border-slate-200 flex space-x-6 text-sm font-semibold">
+      <button onclick="switchTab('ast')" id="tab-btn-ast" class="pb-3 text-indigo-600 border-b-2 border-indigo-600 flex items-center space-x-2">
+        <span>🛡️ AST Security</span>
+        <span class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">9</span>
+      </button>
+      <button onclick="switchTab('license')" id="tab-btn-license" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+        <span>📜 License & Dependencies</span>
+        <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">5</span>
+      </button>
+      <button onclick="switchTab('secrets')" id="tab-btn-secrets" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+        <span>🔑 Secrets & Leaks</span>
+        <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">6</span>
+      </button>
+      <button onclick="switchTab('hygiene')" id="tab-btn-hygiene" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+        <span>📋 Repo Hygiene</span>
+        <span class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">6</span>
+      </button>
+    </div>
+
+    <div id="tab-ast" class="tab-content space-y-4">
+      <div>
+        <h2 class="text-lg font-bold text-slate-900">AST Security Findings</h2>
+        <p class="text-xs text-slate-500">Abstract Syntax Tree analysis flagging dangerous calls, deserialization, and SQL injection.</p>
+      </div>
+      <div class="space-y-4">
+        
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SQL-001</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-89</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          database.py:26
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Unparameterized SQL Query Execution (Formatted String Literal (f-string))</h3>
+      <p class="text-sm text-slate-600 mt-1">SQL query built using Formatted String Literal (f-string) detected inside execute(). Dynamically assembling queries from variables introduces critical SQL Injection risks.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    24 | def delete_record(cursor: sqlite3.Cursor, record_id: str):
+    25 |     # Flagged: AST-SQL-001 - Formatted String Literal (f-string)
+&gt;   26 |     cursor.execute(f&quot;DELETE FROM records WHERE id = {record_id}&quot;)
+    27 | 
+    28 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Use parameterized queries with placeholders (e.g. cursor.execute(&#x27;SELECT * FROM users WHERE id = %s&#x27;, (user_id,)) or with &#x27;?&#x27; for SQLite) to let the database driver safely escape values.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SQL-001</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-89</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          database.py:31
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Unparameterized SQL Query Execution (str.format() Call)</h3>
+      <p class="text-sm text-slate-600 mt-1">SQL query built using str.format() Call detected inside execute(). Dynamically assembling queries from variables introduces critical SQL Injection risks.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    29 | def update_status(cursor: sqlite3.Cursor, record_id: str, status: str):
+    30 |     # Flagged: AST-SQL-001 - str.format() Call
+&gt;   31 |     cursor.execute(&quot;UPDATE records SET status = &#x27;{}&#x27; WHERE id = {}&quot;.format(status, record_id))
+    32 | 
+    33 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Use parameterized queries with placeholders (e.g. cursor.execute(&#x27;SELECT * FROM users WHERE id = %s&#x27;, (user_id,)) or with &#x27;?&#x27; for SQLite) to let the database driver safely escape values.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-DESER-001</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-502</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          database.py:36
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Insecure Deserialization via pickle</h3>
+      <p class="text-sm text-slate-600 mt-1">Use of pickle.loads() allows attackers to execute arbitrary code via specially crafted pickled objects utilizing Python&#x27;s __reduce__ protocol.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    34 | def restore_session_state(raw_session_bytes: bytes):
+    35 |     # Flagged: AST-DESER-001 - Insecure pickle.loads()
+&gt;   36 |     state = pickle.loads(raw_session_bytes)
+    37 |     return state</pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Do not use pickle for untrusted data. Use safer serialization formats such as JSON (json.loads), Protocol Buffers, or MessagePack.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SEC-001</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-95</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:14
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Dangerous eval() Call Detected</h3>
+      <p class="text-sm text-slate-600 mt-1">Use of built-in eval() allows dynamic arbitrary code execution, enabling severe Remote Code Execution (RCE) vulnerabilities.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    12 | def run_user_code(user_input: str):
+    13 |     # Flagged: AST-SEC-001 - Dangerous eval()
+&gt;   14 |     result = eval(user_input)
+    15 |     return result
+    16 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Replace eval() with safe parsers like ast.literal_eval() for data parsing, or refactor logic without dynamic execution.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SEC-002</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-95</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:20
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Dangerous exec() Call Detected</h3>
+      <p class="text-sm text-slate-600 mt-1">Use of built-in exec() executes dynamic Python code strings in local or global scope, exposing the system to arbitrary code execution.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    18 | def execute_script(script_text: str):
+    19 |     # Flagged: AST-SEC-002 - Dangerous exec()
+&gt;   20 |     exec(script_text)
+    21 | 
+    22 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Refactor logic to eliminate exec(). Use dispatch dictionaries, classes, or explicit function calls.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SEC-003</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-78</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:25
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Insecure os.system() Command Execution</h3>
+      <p class="text-sm text-slate-600 mt-1">os.system() spawns a shell and passes arguments directly to it, making it vulnerable to shell injection if input is tainted.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    23 | def ping_host(host: str):
+    24 |     # Flagged: AST-SEC-003 - Insecure os.system() command execution
+&gt;   25 |     os.system(&quot;ping -c 1 &quot; + host)
+    26 | 
+    27 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Use subprocess.run([&#x27;cmd&#x27;, &#x27;arg1&#x27;], shell=False, check=True) with arguments passed as an explicit list without shell=True.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SEC-005</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-78</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:31
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Subprocess Execution with shell=True</h3>
+      <p class="text-sm text-slate-600 mt-1">subprocess.Popen was invoked with shell=True. This initiates a system shell interpreter and risks OS command injection.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    29 |     # Flagged: AST-SEC-005 - subprocess with shell=True
+    30 |     cmd = f&quot;tar -czf {archive_name}.tar.gz /data&quot;
+&gt;   31 |     proc = subprocess.Popen(cmd, shell=True)
+    32 |     proc.wait()
+    33 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Set shell=False and pass command and arguments as a sequence of strings (e.g. [&#x27;executable&#x27;, &#x27;arg1&#x27;]). Use shlex.split() if necessary.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-NET-001</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-295</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:37
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Disabled SSL/TLS Certificate Verification</h3>
+      <p class="text-sm text-slate-600 mt-1">HTTP request has verify=False set, disabling TLS certificate verification and enabling Man-in-the-Middle (MitM) attacks.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    35 | def fetch_internal_metrics(url: str):
+    36 |     # Flagged: AST-NET-001 - Disabled SSL verification
+&gt;   37 |     resp = requests.get(url, verify=False)
+    38 |     return resp.json()
+    39 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Remove verify=False or provide the trusted CA bundle path to ensure all TLS certificates are validated.</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+            WARNING
+          </span>
+          <span class="font-mono text-xs font-semibold text-slate-500">AST-SEC-010</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">CWE-377</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500 truncate">
+          main.py:43
+        </div>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900 mt-2">Insecure tempfile.mktemp() Call</h3>
+      <p class="text-sm text-slate-600 mt-1">tempfile.mktemp() creates a filename rather than an open file, which is susceptible to race conditions and symlink attacks.</p>
+
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    41 | def create_temp_cache():
+    42 |     # Flagged: AST-SEC-010 - Insecure tempfile.mktemp()
+&gt;   43 |     temp_path = tempfile.mktemp()
+    44 |     return temp_path
+    45 | </pre>
+        </div>
+        
+
+      <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+        <span class="font-bold text-emerald-800 shrink-0">💡 Fix Recommendation:</span>
+        <span>Use tempfile.NamedTemporaryFile() or tempfile.mkstemp() which securely create the file atomically.</span>
+      </div>
+    </div>
+    
+      </div>
+    </div>
+
+    <div id="tab-license" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+        <h2 class="text-base font-bold text-slate-900">Project License Analysis</h2>
+        <div class="mt-3 flex items-center space-x-4">
+          <div class="px-3 py-1.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-sm">
+            Declared: MIT License (MIT)
+          </div>
+          <div class="text-xs text-slate-600">
+            Highly permissive open-source license.
+          </div>
+        </div>
+      </div>
+
+      
+            <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs mb-3">
+              <div class="flex items-center space-x-2 font-bold text-rose-800 text-sm">
+                <span>⚠️ Incompatible Copyleft Dependency: ansible (GPL-3.0)</span>
+              </div>
+              <p class="text-rose-700 mt-1">Dependency &#x27;ansible&#x27; is licensed under GNU General Public License v3 (GPL-3.0, Strong Copyleft). Distributing this dependency within a permissive MIT project violates open-source license terms unless the entire project is relicensed under GPL-3.0.</p>
+              <div class="mt-2 text-rose-900 font-semibold">Fix: Replace &#x27;ansible&#x27; with a permissively licensed alternative (MIT, Apache-2.0, or BSD), or relicense project under GPL-3.0.</div>
+            </div>
+            
+            <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs mb-3">
+              <div class="flex items-center space-x-2 font-bold text-rose-800 text-sm">
+                <span>⚠️ Incompatible Copyleft Dependency: mysql-connector-python (GPL-2.0)</span>
+              </div>
+              <p class="text-rose-700 mt-1">Dependency &#x27;mysql-connector-python&#x27; is licensed under GNU General Public License v2 (GPL-2.0, Strong Copyleft). Distributing this dependency within a permissive MIT project violates open-source license terms unless the entire project is relicensed under GPL-2.0.</p>
+              <div class="mt-2 text-rose-900 font-semibold">Fix: Replace &#x27;mysql-connector-python&#x27; with a permissively licensed alternative (MIT, Apache-2.0, or BSD), or relicense project under GPL-2.0.</div>
+            </div>
+            
+            <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs mb-3">
+              <div class="flex items-center space-x-2 font-bold text-rose-800 text-sm">
+                <span>⚠️ Weak Copyleft Dependency Notice: pygobject (LGPL-2.1)</span>
+              </div>
+              <p class="text-rose-700 mt-1">Dependency &#x27;pygobject&#x27; is licensed under GNU Lesser General Public License v2.1 (LGPL-2.1, Weak Copyleft). Permitted in a MIT project provided the library is dynamically linked without modifications. Any source code modifications to &#x27;pygobject&#x27; must be published under LGPL-2.1.</p>
+              <div class="mt-2 text-rose-900 font-semibold">Fix: Verify that &#x27;pygobject&#x27; is imported as an unmodified dynamic dependency and not statically linked into your codebase.</div>
+            </div>
+            
+
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-slate-900 text-sm">Audited Dependencies (5)</h3>
+          <span class="text-xs text-slate-500">Cross-referenced via PyPI REST API</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">Package</th>
+                <th class="py-3 px-4">Version</th>
+                <th class="py-3 px-4">Declared License</th>
+                <th class="py-3 px-4">License Type</th>
+                <th class="py-3 px-4">Source</th>
+                <th class="py-3 px-4 text-center">Compatibility</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800">
+        <a href="https://pypi.org/pypi/fastapi/json" target="_blank" class="hover:text-indigo-600 transition flex items-center space-x-1">
+          <span>fastapi</span>
+          <span class="text-slate-400 text-xs">↗</span>
+        </a>
+      </td>
+      <td class="py-3 px-4 font-mono text-slate-600">&gt;=0.100.0</td>
+      <td class="py-3 px-4 font-semibold text-slate-800">MIT</td>
+      <td class="py-3 px-4 text-slate-600">Permissive</td>
+      <td class="py-3 px-4 text-slate-500">Local Cache</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">
+          COMPATIBLE
+        </span>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800">
+        <a href="https://pypi.org/pypi/requests/json" target="_blank" class="hover:text-indigo-600 transition flex items-center space-x-1">
+          <span>requests</span>
+          <span class="text-slate-400 text-xs">↗</span>
+        </a>
+      </td>
+      <td class="py-3 px-4 font-mono text-slate-600">==2.31.0</td>
+      <td class="py-3 px-4 font-semibold text-slate-800">Apache-2.0</td>
+      <td class="py-3 px-4 text-slate-600">Permissive</td>
+      <td class="py-3 px-4 text-slate-500">Local Cache</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">
+          COMPATIBLE
+        </span>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800">
+        <a href="https://pypi.org/pypi/ansible/json" target="_blank" class="hover:text-indigo-600 transition flex items-center space-x-1">
+          <span>ansible</span>
+          <span class="text-slate-400 text-xs">↗</span>
+        </a>
+      </td>
+      <td class="py-3 px-4 font-mono text-slate-600">&gt;=8.0.0</td>
+      <td class="py-3 px-4 font-semibold text-slate-800">GPL-3.0</td>
+      <td class="py-3 px-4 text-slate-600">Strong Copyleft</td>
+      <td class="py-3 px-4 text-slate-500">Local Cache</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+          INCOMPATIBLE
+        </span>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800">
+        <a href="https://pypi.org/pypi/mysql-connector-python/json" target="_blank" class="hover:text-indigo-600 transition flex items-center space-x-1">
+          <span>mysql-connector-python</span>
+          <span class="text-slate-400 text-xs">↗</span>
+        </a>
+      </td>
+      <td class="py-3 px-4 font-mono text-slate-600">==8.0.33</td>
+      <td class="py-3 px-4 font-semibold text-slate-800">GPL-2.0</td>
+      <td class="py-3 px-4 text-slate-600">Strong Copyleft</td>
+      <td class="py-3 px-4 text-slate-500">Local Cache</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+          INCOMPATIBLE
+        </span>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800">
+        <a href="https://pypi.org/pypi/pygobject/json" target="_blank" class="hover:text-indigo-600 transition flex items-center space-x-1">
+          <span>pygobject</span>
+          <span class="text-slate-400 text-xs">↗</span>
+        </a>
+      </td>
+      <td class="py-3 px-4 font-mono text-slate-600">==3.44.1</td>
+      <td class="py-3 px-4 font-semibold text-slate-800">LGPL-2.1</td>
+      <td class="py-3 px-4 text-slate-600">Weak Copyleft</td>
+      <td class="py-3 px-4 text-slate-500">Local Cache</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+          WARNING
+        </span>
+      </td>
+    </tr>
+    
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-secrets" class="tab-content hidden space-y-4">
+      <div>
+        <h2 class="text-lg font-bold text-slate-900">Secrets & Hardcoded Credentials</h2>
+        <p class="text-xs text-slate-500">Regex and entropy matching for API keys, cloud tokens, database URIs, and private keys.</p>
+      </div>
+      <div class="space-y-4">
+        
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-OPENAI-001</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:7</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Hardcoded OpenAI API Key</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">sk-pro••••••••9182</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>     6 | # Flagged: SEC-OPENAI-001 - Hardcoded OpenAI API Key
+&gt;    7 | OPENAI_API_KEY = &quot;sk-pro••••••••9182&quot;
+     8 | </pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Revoke the key immediately from the OpenAI platform dashboard. Store keys in environment variables (e.g. os.environ[&#x27;OPENAI_API_KEY&#x27;]) or secrets managers.
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+            WARNING
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-GENERIC-001</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:7</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Hardcoded High-Entropy Secret / Token Assignment</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">sk-pro••••••••9182</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>     6 | # Flagged: SEC-OPENAI-001 - Hardcoded OpenAI API Key
+&gt;    7 | OPENAI_API_KEY = &quot;sk-pro••••••••9182&quot;
+     8 | </pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Store application secrets in environment variables or configuration files that are excluded from git via .gitignore.
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-AWS-001</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:10</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Hardcoded AWS Access Key ID</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">AKIAI••••••••MPLE</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>     9 | # Flagged: SEC-AWS-001 - Hardcoded AWS Access Key ID
+&gt;   10 | AWS_ACCESS_KEY_ID = &quot;AKIAI••••••••MPLE&quot;
+    11 | </pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Deactivate this IAM access key immediately in AWS IAM Console. Use AWS IAM Roles, AWS Secrets Manager, or ~/.aws/credentials.
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-AWS-002</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:13</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Potential AWS Secret Access Key</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">wJalrX••••••••EKEY</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    12 | # Flagged: SEC-AWS-002 - AWS Secret Key
+&gt;   13 | AWS_SECRET_ACCESS_KEY = &quot;wJalrX••••••••EKEY&quot;
+    14 | </pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Rotate your AWS IAM key pair immediately. Use IAM Instance Profiles or federated SSO credentials instead of hardcoded strings.
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+            CRITICAL
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-DB-001</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:16</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Hardcoded Database Connection String with Credentials</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">postgr••••••••e_db</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    15 | # Flagged: SEC-DB-001 - Hardcoded Database URI with credentials
+&gt;   16 | DATABASE_URL = &quot;postgr••••••••e_db&quot;
+    17 | </pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Remove plaintext credentials from source code. Load connection strings via environment variables or secret vaults.
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+            WARNING
+          </span>
+          <span class="font-mono text-xs text-slate-500">SEC-JWT-001</span>
+        </div>
+        <div class="font-mono text-xs text-slate-500">config.py:19</div>
+      </div>
+      <h3 class="font-bold text-slate-900 mt-2">Exposed JSON Web Token (JWT)</h3>
+      <div class="mt-2 p-2.5 rounded bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+        <span class="font-semibold text-rose-800">Masked Token:</span>
+        <code class="text-rose-900 font-bold">eyJhbG••••••••sw5c</code>
+      </div>
+      
+        <div class="mt-3 bg-slate-900 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto">
+          <pre>    18 | # Flagged: SEC-JWT-001 - Exposed JWT Token
+&gt;   19 | DEFAULT_AUTH_TOKEN = &quot;eyJhbG••••••••sw5c&quot;</pre>
+        </div>
+        
+      <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+        <strong>Remediation:</strong> Do not hardcode authentication tokens. Generate tokens dynamically at runtime or inject test tokens during testing through environment config.
+      </div>
+    </div>
+    
+      </div>
+    </div>
+
+    <div id="tab-hygiene" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100">
+          <h3 class="font-bold text-slate-900 text-sm">Essential Open Source Health Files</h3>
+          <p class="text-xs text-slate-500">Repository governance, licensing, and security contact points.</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">Baseline Health File</th>
+                <th class="py-3 px-4 text-center">Requirement</th>
+                <th class="py-3 px-4 text-center">Status</th>
+                <th class="py-3 px-4 text-right">File Size</th>
+                <th class="py-3 px-4">Assessment & Recommendations</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>README.md</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Mandatory</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">
+          PASS
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">257 B</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>README.md is present (257 bytes).</div>
+        
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>LICENSE</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Mandatory</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">
+          PASS
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">615 B</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>LICENSE is present (615 bytes).</div>
+        
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>.gitignore</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Mandatory</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-rose-50 text-rose-700 border-rose-200">
+          FAIL
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">-</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>Missing essential file: .gitignore. Prevents accidental tracking of secrets, virtual environments, build artifacts, and caches.</div>
+        <div class="text-indigo-600 font-medium mt-0.5">Tip: Create a standard .gitignore file in repository root.</div>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>CONTRIBUTING.md</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Recommended</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+          WARNING
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">-</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>Missing essential file: CONTRIBUTING.md. Provides contribution workflow, testing requirements, and Pull Request guidelines.</div>
+        <div class="text-indigo-600 font-medium mt-0.5">Tip: Create a standard CONTRIBUTING.md file in repository root.</div>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>SECURITY.md</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Recommended</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+          WARNING
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">-</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>Missing essential file: SECURITY.md. Outlines vulnerability reporting procedures and coordinated security disclosures.</div>
+        <div class="text-indigo-600 font-medium mt-0.5">Tip: Create a standard SECURITY.md file in repository root.</div>
+      </td>
+    </tr>
+    
+    <tr class="hover:bg-slate-50/70">
+      <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+        <span>📄</span>
+        <span>CODE_OF_CONDUCT.md</span>
+      </td>
+      <td class="py-3 px-4 text-center font-medium text-slate-500">Recommended</td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border bg-amber-50 text-amber-700 border-amber-200">
+          WARNING
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right font-mono text-slate-600">-</td>
+      <td class="py-3 px-4 text-slate-600">
+        <div>Missing essential file: CODE_OF_CONDUCT.md. Establishes community standards, inclusivity expectations, and reporting channels.</div>
+        <div class="text-indigo-600 font-medium mt-0.5">Tip: Create a standard CODE_OF_CONDUCT.md file in repository root.</div>
+      </td>
+    </tr>
+    
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function switchTab(tabId) {
+      const tabs = ['ast', 'license', 'secrets', 'hygiene'];
+      tabs.forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (t === tabId) {
+          el.classList.remove('hidden');
+          btn.classList.add('text-indigo-600', 'border-indigo-600');
+          btn.classList.remove('text-slate-500', 'border-transparent');
+        } else {
+          el.classList.add('hidden');
+          btn.classList.remove('text-indigo-600', 'border-indigo-600');
+          btn.classList.add('text-slate-500', 'border-transparent');
+        }
+      });
+    }
+  </script>
+
+  <footer class="mt-16 border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
+    <p>RepoGuard • Open Source Security, Compliance & Repository Hygiene Inspector</p>
+    <p class="mt-1">University of Mumbai | Recent Open Source Project Lab (ITL709) • Local Static Analysis Engine</p>
+  </footer>
+</body>
+</html>

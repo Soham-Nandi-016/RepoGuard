@@ -1,0 +1,8 @@
+# Vulnerable Sample Dependencies
+fastapi>=0.100.0
+requests==2.31.0
+
+# Copyleft dependencies that conflict with permissive MIT project license:
+ansible>=8.0.0
+mysql-connector-python==8.0.33
+pygobject==3.44.1
