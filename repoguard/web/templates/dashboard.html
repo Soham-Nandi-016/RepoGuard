@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RepoGuard • Open Source Compliance & Security Inspector</title>
+  <title>RepoGuard | Protect Every Repository</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & JetBrains Mono -->
@@ -41,21 +41,25 @@
   <!-- Header -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <!-- Brand Logo & Tagline -->
+      <!-- Clean Brand Logo & Tagline -->
       <div class="flex items-center space-x-3.5">
         <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm font-bold text-lg select-none">
-          🛡️
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
         </div>
         <div>
           <div class="flex items-center space-x-2">
             <span class="font-extrabold text-slate-900 text-lg tracking-tight">RepoGuard</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">v1.0</span>
+            <span class="text-slate-300 font-light">|</span>
+            <span class="text-sm font-semibold text-slate-700">Protect Every Repository</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">v1.0.0</span>
           </div>
-          <p class="text-xs text-slate-500">Protect Every Repository • University of Mumbai (ITL709)</p>
+          <p class="text-xs text-slate-500">Open Source Static Analysis & Compliance Engine</p>
         </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Action Buttons & GitHub link -->
       <div class="flex items-center space-x-3">
         <button id="btn-export-html" onclick="exportHtmlReport()" class="hidden px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition flex items-center space-x-1.5">
           <span>📄 Export HTML</span>
@@ -64,9 +68,12 @@
           <span>💾 Export JSON</span>
         </button>
         <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
-        <div class="text-xs text-slate-500 hidden md:block">
-          Lab: <span class="font-semibold text-slate-700">ITL709 Open Source Project</span>
-        </div>
+        <a href="https://github.com/Soham-Nandi-016/RepoGuard" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-semibold shadow-xs transition" title="View Source on GitHub">
+          <svg class="w-4 h-4 text-slate-800" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span class="hidden sm:inline">GitHub</span>
+        </a>
       </div>
     </div>
   </header>
@@ -74,52 +81,156 @@
   <!-- Main Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
 
-    <!-- Hero / Repository Selector Card -->
-    <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
+    <!-- Unified Smart Dropzone Card -->
+    <div id="dropzone-card" class="bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 transition-all duration-200 p-6 sm:p-7 shadow-xs relative overflow-hidden">
+      
+      <!-- Drag Over Visual Overlay Indicator -->
+      <div id="drop-overlay" class="absolute inset-0 bg-indigo-50/95 border-2 border-dashed border-indigo-500 rounded-2xl z-20 flex flex-col items-center justify-center pointer-events-none hidden backdrop-blur-[1px] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-md mb-2 animate-bounce">
+          📥
+        </div>
+        <p class="text-base font-bold text-indigo-900">Drop your file or archive here</p>
+        <p class="text-xs text-indigo-700 mt-0.5">Supports single <span class="font-semibold">.py</span> scripts or <span class="font-semibold">.zip</span> repository archives</p>
+      </div>
+
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
         <div>
-          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Local Repository Inspector</h1>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Repository & Code Inspector</h1>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">Local Engine</span>
+          </div>
           <p class="text-xs sm:text-sm text-slate-500 mt-1">Zero cloud uploads. Evaluates Python AST security, hardcoded secrets, PyPI license compatibility, and baseline files locally.</p>
         </div>
         <!-- Quick Preset Buttons -->
         <div class="flex flex-wrap items-center gap-2">
           <span class="text-xs font-medium text-slate-400">Presets:</span>
-          <button onclick="setPathPreset('samples/vulnerable_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">
+          <button type="button" onclick="setPathPreset('samples/vulnerable_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition shadow-2xs">
             ⚠️ Vulnerable Demo
           </button>
-          <button onclick="setPathPreset('samples/clean_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">
+          <button type="button" onclick="setPathPreset('samples/clean_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition shadow-2xs">
             ✓ Clean Demo
           </button>
-          <button onclick="setPathPreset('.')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 transition">
+          <button type="button" onclick="setPathPreset('.')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 transition shadow-2xs">
             RepoGuard Workspace
           </button>
         </div>
       </div>
 
-      <!-- Path Input Form -->
+      <!-- Unified Input & Upload Form -->
       <form id="scan-form" onsubmit="handleScanSubmit(event)" class="space-y-3">
-        <div class="flex flex-col sm:flex-row gap-2.5">
-          <div class="relative flex-1">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
+        <!-- Hidden file selector -->
+        <input
+          type="file"
+          id="file-selector"
+          accept=".py,.zip"
+          class="hidden"
+          onchange="handleFileSelect(event)"
+        />
+
+        <!-- Smart Input Container -->
+        <div class="relative flex flex-col sm:flex-row gap-2.5">
+          <div class="relative flex-1 group">
+            <!-- Dynamic Mode Icon (Folder, Python, or ZIP) -->
+            <div id="input-mode-icon" class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-base transition">
               📁
             </div>
+
+            <!-- Unified Text Input -->
             <input
               type="text"
               id="repo-path-input"
               value="samples/vulnerable_repo"
-              placeholder="Enter local repository directory path (e.g. . or samples/vulnerable_repo)..."
-              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-inner"
-              required
+              placeholder="Paste local folder path or drop a .py / .zip archive..."
+              oninput="handlePathInput(event)"
+              class="w-full pl-10 pr-24 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-inner"
+              autocomplete="off"
+              spellcheck="false"
             />
+
+            <!-- Clear/Unstage Staged File Button & Browse Trigger inside input -->
+            <div id="staged-actions" class="absolute inset-y-0 right-0 pr-2 flex items-center space-x-1.5">
+              <button
+                type="button"
+                id="btn-clear-staged"
+                onclick="clearStagedInput()"
+                title="Clear input"
+                class="w-6 h-6 rounded-md hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center text-xs font-bold transition"
+              >
+                ✕
+              </button>
+              <button
+                type="button"
+                onclick="triggerFileBrowse()"
+                title="Browse file (.py or .zip)"
+                class="px-2 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 text-xs font-semibold shadow-2xs transition flex items-center space-x-1 cursor-pointer"
+              >
+                <span>📂</span>
+                <span class="hidden md:inline">Browse</span>
+              </button>
+            </div>
           </div>
+
+          <!-- Submit / Run Scan Button -->
           <button
             type="submit"
             id="scan-btn"
-            class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50"
+            class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 cursor-pointer"
           >
             <span id="scan-btn-spinner" class="hidden animate-spin">🔄</span>
             <span id="scan-btn-text">Run Security Audit</span>
           </button>
+        </div>
+
+        <!-- Staged File Status Banner (dynamically shown when a file is staged) -->
+        <div id="staged-file-card" class="hidden rounded-xl border border-indigo-200 bg-indigo-50/70 p-3 flex items-center justify-between text-xs text-indigo-900 transition">
+          <div class="flex items-center space-x-2.5 truncate">
+            <span id="staged-file-icon" class="text-base shrink-0">📦</span>
+            <div class="truncate">
+              <span class="font-bold text-slate-900" id="staged-file-name">filename.zip</span>
+              <span class="text-indigo-600 ml-1.5 font-mono" id="staged-file-size">(0 KB)</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0 ml-3">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-indigo-700 bg-indigo-100/90 px-2 py-0.5 rounded border border-indigo-200">
+              Ready to Scan
+            </span>
+            <button
+              type="button"
+              onclick="clearStagedInput()"
+              class="w-6 h-6 rounded-md hover:bg-indigo-100 text-indigo-600 hover:text-indigo-900 flex items-center justify-center font-bold cursor-pointer"
+              title="Remove staged file"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Dropzone Interactive Area & Format Pills -->
+        <div
+          id="dropzone-area"
+          onclick="triggerFileBrowse()"
+          class="border-2 border-dashed border-slate-200 hover:border-indigo-400 bg-slate-50/60 hover:bg-indigo-50/30 rounded-xl p-3.5 transition text-center cursor-pointer group"
+        >
+          <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs text-slate-500">
+            <span class="font-semibold text-slate-700 group-hover:text-indigo-600 transition flex items-center space-x-1">
+              <span>⚡ Seamless Input Dropzone:</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>📁</span>
+              <span>Local Path (e.g. C:/... or samples/...)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>🐍</span>
+              <span>Single Python (.py)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>📦</span>
+              <span>Repository Archive (.zip)</span>
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">
+            Paste a folder path above, or drag and drop any <strong class="text-slate-600">.py</strong> file or <strong class="text-slate-600">.zip</strong> archive directly anywhere on this card.
+          </p>
         </div>
       </form>
     </div>
@@ -445,11 +556,10 @@
   <footer class="mt-16 border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center space-x-2">
-        <span class="font-bold text-slate-800">RepoGuard</span>
-        <span>•</span>
-        <span>Open Source Security & Compliance Inspector</span>
+        <span class="font-bold text-slate-800">RepoGuard v1.0.0</span>
+        <span>—</span>
+        <span>Open Source Static Analysis Engine (GPLv3 License)</span>
       </div>
-      <div>University of Mumbai • Recent Open Source Project Lab (ITL709)</div>
       <div class="text-slate-400">Zero Cloud Uploads • 100% Local CPU Execution</div>
     </div>
   </footer>
@@ -458,23 +568,228 @@
   <script>
     let currentReport = null;
     let astFilter = 'ALL';
+    let stagedFile = null;
 
-    // Auto-scan default preset on page load
+    // Auto-scan default preset on page load and initialize smart dropzone
     document.addEventListener('DOMContentLoaded', () => {
+      setupDropzone();
       runScan('samples/vulnerable_repo');
       loadHistory();
     });
 
+    function setupDropzone() {
+      const dropzoneCard = document.getElementById('dropzone-card');
+      const dropOverlay = document.getElementById('drop-overlay');
+      const inputEl = document.getElementById('repo-path-input');
+
+      // Prevent default drag behaviors on window to stop browser opening files
+      window.addEventListener('dragover', (e) => e.preventDefault(), false);
+      window.addEventListener('drop', (e) => e.preventDefault(), false);
+
+      let dragCounter = 0;
+
+      dropzoneCard.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter++;
+        dropOverlay.classList.remove('hidden');
+        dropzoneCard.classList.add('border-indigo-500', 'ring-2', 'ring-indigo-300');
+      });
+
+      dropzoneCard.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      dropzoneCard.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter--;
+        if (dragCounter <= 0) {
+          dragCounter = 0;
+          dropOverlay.classList.add('hidden');
+          dropzoneCard.classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-300');
+        }
+      });
+
+      dropzoneCard.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter = 0;
+        dropOverlay.classList.add('hidden');
+        dropzoneCard.classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-300');
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+          stageFile(files[0]);
+        } else {
+          const text = e.dataTransfer.getData('text/plain');
+          if (text) {
+            clearStagedInput();
+            inputEl.value = text.trim();
+            document.getElementById('btn-clear-staged').classList.remove('hidden');
+          }
+        }
+      });
+
+      // Handle clipboard paste of files into the input
+      inputEl.addEventListener('paste', (e) => {
+        if (e.clipboardData && e.clipboardData.files && e.clipboardData.files.length > 0) {
+          e.preventDefault();
+          stageFile(e.clipboardData.files[0]);
+        }
+      });
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes || isNaN(bytes)) return '0 B';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function stageFile(file) {
+      const lower = file.name.toLowerCase();
+      const isZip = lower.endsWith('.zip');
+      const isPy = lower.endsWith('.py');
+
+      if (!isZip && !isPy) {
+        showErrorMessage("Unsupported file type. Please upload a single .py file or a .zip repository archive.");
+        return;
+      }
+
+      stagedFile = file;
+      const icon = isZip ? '📦' : '🐍';
+
+      // Update UI elements
+      document.getElementById('input-mode-icon').textContent = icon;
+      document.getElementById('staged-file-icon').textContent = icon;
+      document.getElementById('staged-file-name').textContent = file.name;
+      document.getElementById('staged-file-size').textContent = `(${formatFileSize(file.size)})`;
+      document.getElementById('staged-file-card').classList.remove('hidden');
+      document.getElementById('repo-path-input').value = file.name;
+      document.getElementById('btn-clear-staged').classList.remove('hidden');
+
+      hideErrorMessage();
+    }
+
+    function clearStagedInput() {
+      stagedFile = null;
+      document.getElementById('file-selector').value = '';
+      document.getElementById('input-mode-icon').textContent = '📁';
+      document.getElementById('staged-file-card').classList.add('hidden');
+      document.getElementById('btn-clear-staged').classList.add('hidden');
+      const inputEl = document.getElementById('repo-path-input');
+      inputEl.value = '';
+      inputEl.focus();
+    }
+
+    function handlePathInput(e) {
+      const val = e.target.value;
+      if (stagedFile) {
+        // User started typing over a staged file -> switch to manual path mode
+        stagedFile = null;
+        document.getElementById('file-selector').value = '';
+        document.getElementById('input-mode-icon').textContent = '📁';
+        document.getElementById('staged-file-card').classList.add('hidden');
+      }
+
+      const clearBtn = document.getElementById('btn-clear-staged');
+      if (val.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    function triggerFileBrowse() {
+      document.getElementById('file-selector').click();
+    }
+
+    function handleFileSelect(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        stageFile(e.target.files[0]);
+      }
+    }
+
     function setPathPreset(path) {
+      clearStagedInput();
       document.getElementById('repo-path-input').value = path;
+      document.getElementById('btn-clear-staged').classList.remove('hidden');
       runScan(path);
     }
 
     function handleScanSubmit(e) {
       e.preventDefault();
+      if (stagedFile) {
+        runScanUpload(stagedFile);
+        return;
+      }
+
       const path = document.getElementById('repo-path-input').value.trim();
       if (path) {
         runScan(path);
+      } else {
+        showErrorMessage("Please enter a local repository path or select a .py / .zip file.");
+      }
+    }
+
+    function showErrorMessage(msg) {
+      const errorState = document.getElementById('error-state');
+      document.getElementById('error-message').textContent = msg;
+      errorState.classList.remove('hidden');
+    }
+
+    function hideErrorMessage() {
+      document.getElementById('error-state').classList.add('hidden');
+    }
+
+    async function runScanUpload(file) {
+      const scanBtn = document.getElementById('scan-btn');
+      const scanText = document.getElementById('scan-btn-text');
+      const scanSpinner = document.getElementById('scan-btn-spinner');
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+      const resultsSection = document.getElementById('results-section');
+
+      scanBtn.disabled = true;
+      scanText.textContent = "Uploading & Scanning...";
+      scanSpinner.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('opacity-50');
+
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch('/api/scan-upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Failed to scan uploaded file.');
+        }
+
+        const data = await response.json();
+        currentReport = data;
+        renderReport(data);
+
+        // Show export buttons
+        document.getElementById('btn-export-html').classList.remove('hidden');
+        document.getElementById('btn-export-json').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('error-message').textContent = err.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        scanBtn.disabled = false;
+        scanText.textContent = "Run Security Audit";
+        scanSpinner.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultsSection.classList.remove('opacity-50');
       }
     }
 
@@ -913,7 +1228,25 @@
 
         container.innerHTML = rendered;
       } catch (err) {
-        container.innerHTML = `<div class="p-4 text-rose-400">Failed to load file contents: ${err.message}</div>`;
+        // Fallback: check if the issue has a code snippet in currentReport
+        let fallbackSnippet = null;
+        if (currentReport) {
+          const allIssues = (currentReport.ast_issues || []).concat(currentReport.secret_issues || []);
+          const matched = allIssues.find(i => i.file_path === filePath && (i.line_number === flaggedLine || decodeURIComponent(title) === i.title));
+          if (matched && matched.code_snippet) {
+            fallbackSnippet = matched.code_snippet;
+          }
+        }
+        if (fallbackSnippet) {
+          container.innerHTML = `
+            <div class="p-3 bg-indigo-950 text-indigo-300 text-xs border-b border-indigo-900/60 flex items-center space-x-2">
+              <span>ℹ️ Scanned Context Snippet:</span>
+            </div>
+            <pre class="p-4 text-slate-200 leading-relaxed overflow-x-auto">${escapeHtml(fallbackSnippet)}</pre>
+          `;
+        } else {
+          container.innerHTML = `<div class="p-4 text-rose-400">Failed to load file contents: ${err.message}</div>`;
+        }
       }
     }
 
@@ -955,12 +1288,31 @@
     // Export Helpers
     function exportHtmlReport() {
       if (!currentReport) return;
-      window.location.href = `/api/export/html?path=${encodeURIComponent(currentReport.repo_path)}`;
+      if (currentReport.repo_path && !currentReport.repo_path.startsWith('[Upload]')) {
+        window.location.href = `/api/export/html?path=${encodeURIComponent(currentReport.repo_path)}`;
+      } else if (currentReport.id) {
+        window.location.href = `/api/export/html?scan_id=${currentReport.id}`;
+      } else {
+        window.print();
+      }
     }
 
     function exportJsonReport() {
       if (!currentReport) return;
-      window.location.href = `/api/export/json?path=${encodeURIComponent(currentReport.repo_path)}`;
+      try {
+        const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const safeName = (currentReport.repo_name || 'audit').replace(/[^a-zA-Z0-9_\-\.]/g, '_');
+        a.download = `repoguard_report_${safeName}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        window.location.href = `/api/export/json?path=${encodeURIComponent(currentReport.repo_path)}`;
+      }
     }
 
     // Tab Switching

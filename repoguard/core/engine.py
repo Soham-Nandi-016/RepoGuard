@@ -165,3 +165,7 @@ class RepoGuardEngine:
                 pass
 
         return report
+
+    def run_scan(self, repo_path: str | Path, save_to_db: bool = True) -> ScanReport:
+        """Execute a full compliance and security scan on the repository (alias for scan)."""
+        return self.scan(repo_path, save_to_db=save_to_db)

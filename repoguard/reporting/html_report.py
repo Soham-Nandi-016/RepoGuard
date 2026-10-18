@@ -259,7 +259,7 @@ def generate_html_report(report: ScanReport) -> str:
             <span class="font-extrabold text-slate-900 tracking-tight text-lg">RepoGuard</span>
             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Standalone Report</span>
           </div>
-          <p class="text-xs text-slate-500">Protect Every Repository • University of Mumbai (ITL709)</p>
+          <p class="text-xs text-slate-500">RepoGuard | Protect Every Repository</p>
         </div>
       </div>
       <div class="flex items-center space-x-3 text-xs">
@@ -456,8 +456,8 @@ def generate_html_report(report: ScanReport) -> str:
   </script>
 
   <footer class="mt-16 border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-    <p>RepoGuard • Open Source Security, Compliance & Repository Hygiene Inspector</p>
-    <p class="mt-1">University of Mumbai | Recent Open Source Project Lab (ITL709) • Local Static Analysis Engine</p>
+    <p>RepoGuard v1.0.0 — Open Source Static Analysis Engine (GPLv3 License)</p>
+    <p class="mt-1 text-slate-400">Zero Cloud Uploads • 100% Local CPU Execution</p>
   </footer>
 </body>
 </html>"""
