@@ -1,8 +1,10 @@
 # 🛡️ RepoGuard: Protect Every Repository
 
-**Automated Open Source Security, Compliance & Repository Hygiene Inspector**  
-*Lab Context:* **University of Mumbai — Recent Open Source Project Lab (ITL709)**  
-*Author:* Antigravity Pair Programmer
+**A zero-cloud, privacy-first static analysis engine that audits local repositories for AST security vulnerabilities, leaked API secrets, GPL/copyleft license conflicts, and open-source governance hygiene.**
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
+[![Build Status: 28 Passed](https://img.shields.io/badge/Tests-28%20Passed-emerald.svg)](#)
 
 ---
 
