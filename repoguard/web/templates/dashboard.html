@@ -143,7 +143,8 @@
         </div>
         <p class="text-base font-bold text-indigo-900">Drop your file or archive here</p>
         <p class="text-xs text-indigo-700 mt-0.5">Supports single <span class="font-semibold">.py</span> scripts or
-          <span class="font-semibold">.zip</span> repository archives</p>
+          <span class="font-semibold">.zip</span> repository archives
+        </p>
       </div>
 
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
@@ -398,33 +399,33 @@
       <!-- Navigation Tabs -->
       <div class="border-b border-slate-200 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
         <button onclick="switchTab('ast')" id="tab-btn-ast"
-          class="pb-3 text-indigo-600 border-b-2 border-indigo-600 flex items-center space-x-2 cursor-pointer transition">
+          class="pb-3 text-indigo-600 border-b-2 border-indigo-600 flex items-center space-x-2 cursor-pointer transition bg-transparent">
           <span>🛡️ AST Security Vulnerabilities</span>
           <span id="tab-badge-ast" class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">0</span>
         </button>
         <button onclick="switchTab('license')" id="tab-btn-license"
-          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition">
+          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition bg-transparent">
           <span>📜 License Compliance</span>
           <span id="tab-badge-license" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
         </button>
         <button onclick="switchTab('secrets')" id="tab-btn-secrets"
-          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition">
+          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition bg-transparent">
           <span>🔑 Secrets & Leaks</span>
           <span id="tab-badge-secrets" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
         </button>
         <button onclick="switchTab('hygiene')" id="tab-btn-hygiene"
-          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition">
+          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition bg-transparent">
           <span>📋 Repo Hygiene Checklist</span>
           <span id="tab-badge-hygiene" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
         </button>
         <button onclick="switchTab('history')" id="tab-btn-history"
-          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition">
+          class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2 cursor-pointer transition bg-transparent">
           <span>🕒 Scan History</span>
         </button>
       </div>
 
       <!-- TAB 1: AST Security Scanner -->
-      <div id="tab-ast" class="tab-pane space-y-4">
+      <div id="tab-ast" data-tab-content="ast" class="tab-content space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 class="text-base font-bold text-slate-900">Python AST Security Scanner</h3>
@@ -449,7 +450,7 @@
       </div>
 
       <!-- TAB 2: License Compliance -->
-      <div id="tab-license" class="tab-pane hidden space-y-6">
+      <div id="tab-license" data-tab-content="license" class="tab-content hidden space-y-6">
         <!-- Project License Summary Box -->
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
           <h3 class="text-sm font-bold text-slate-900">Project License Assessment</h3>
@@ -496,7 +497,7 @@
       </div>
 
       <!-- TAB 3: Secrets & Leaks -->
-      <div id="tab-secrets" class="tab-pane hidden space-y-4">
+      <div id="tab-secrets" data-tab-content="secrets" class="tab-content hidden space-y-4">
         <div>
           <h3 class="text-base font-bold text-slate-900">Hardcoded Secrets & Credential Leaks</h3>
           <p class="text-xs text-slate-500">Regex and Shannon entropy matching for OpenAI keys, AWS credentials,
@@ -509,7 +510,7 @@
       </div>
 
       <!-- TAB 4: Repo Hygiene Checklist -->
-      <div id="tab-hygiene" class="tab-pane hidden space-y-6">
+      <div id="tab-hygiene" data-tab-content="hygiene" class="tab-content hidden space-y-6">
         <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
           <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
             <div>
@@ -544,7 +545,7 @@
       </div>
 
       <!-- TAB 5: Scan History -->
-      <div id="tab-history" class="tab-pane hidden space-y-4">
+      <div id="tab-history" data-tab-content="history" class="tab-content hidden space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-base font-bold text-slate-900">Audit History</h3>
@@ -1495,19 +1496,70 @@
     function switchTab(tabId) {
       const tabs = ['ast', 'license', 'secrets', 'hygiene', 'history'];
       tabs.forEach(t => {
-        const pane = document.getElementById('tab-' + t);
+        const pane = document.getElementById('tab-' + t) || document.getElementById('tab-content-' + t);
         const btn = document.getElementById('tab-btn-' + t);
+        const badge = document.getElementById('tab-badge-' + t);
         if (t === tabId) {
-          pane.classList.remove('hidden');
-          btn.classList.add('text-indigo-600', 'border-indigo-600');
-          btn.classList.remove('text-slate-500', 'border-transparent');
+          if (pane) {
+            pane.classList.remove('hidden');
+          }
+          if (btn) {
+            btn.classList.add('text-indigo-600', 'border-indigo-600');
+            btn.classList.remove('text-slate-500', 'border-transparent');
+          }
+          if (badge) {
+            badge.classList.remove('bg-slate-100', 'text-slate-700');
+            badge.classList.add('bg-indigo-50', 'text-indigo-700');
+          }
         } else {
-          pane.classList.add('hidden');
-          btn.classList.remove('text-indigo-600', 'border-indigo-600');
-          btn.classList.add('text-slate-500', 'border-transparent');
+          if (pane) {
+            pane.classList.add('hidden');
+          }
+          if (btn) {
+            btn.classList.remove('text-indigo-600', 'border-indigo-600');
+            btn.classList.add('text-slate-500', 'border-transparent');
+          }
+          if (badge) {
+            badge.classList.remove('bg-indigo-50', 'text-indigo-700');
+            badge.classList.add('bg-slate-100', 'text-slate-700');
+          }
         }
       });
     }
+
+    // Tab Event Listeners & ID Alias Support
+    const _origGetById = document.getElementById.bind(document);
+    document.getElementById = function (id) {
+      if (id && id.startsWith('tab-content-')) {
+        const target = _origGetById(id) || _origGetById('tab-' + id.replace('tab-content-', ''));
+        if (target) return target;
+      }
+      return _origGetById(id);
+    };
+
+    const _origQuerySelector = document.querySelector.bind(document);
+    document.querySelector = function (selector) {
+      if (typeof selector === 'string' && selector.startsWith('#tab-content-')) {
+        const target = _origQuerySelector(selector) || _origGetById('tab-' + selector.replace('#tab-content-', ''));
+        if (target) return target;
+      }
+      return _origQuerySelector(selector);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = ['ast', 'license', 'secrets', 'hygiene', 'history'];
+      tabs.forEach(tabId => {
+        const btn = document.getElementById('tab-btn-' + tabId);
+        if (btn) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab(tabId);
+          });
+        }
+      });
+      // Enforce initial active tab
+      switchTab('ast');
+    });
 
     function escapeHtml(str) {
       return (str || '')

@@ -26,6 +26,33 @@ def test_dashboard_endpoint(client: TestClient):
     assert "ITL709" not in response.text
 
 
+def test_dashboard_tab_structure(client: TestClient):
+    response = client.get("/")
+    assert response.status_code == 200
+    text = response.text
+
+    # Verify tab buttons
+    for tab in ["ast", "license", "secrets", "hygiene", "history"]:
+        assert f'id="tab-btn-{tab}"' in text
+        assert f"switchTab('{tab}')" in text
+
+    # Verify section container divs
+    assert 'id="tab-ast"' in text
+    assert 'id="tab-license"' in text
+    assert 'id="tab-secrets"' in text
+    assert 'id="tab-hygiene"' in text
+    assert 'id="tab-history"' in text
+
+    # Verify initial active/hidden tab states:
+    # First tab (AST) is visible (no hidden class)
+    assert 'id="tab-ast" data-tab-content="ast" class="tab-content space-y-4"' in text
+    # Remaining 4 tabs are hidden by default
+    assert 'id="tab-license" data-tab-content="license" class="tab-content hidden space-y-6"' in text
+    assert 'id="tab-secrets" data-tab-content="secrets" class="tab-content hidden space-y-4"' in text
+    assert 'id="tab-hygiene" data-tab-content="hygiene" class="tab-content hidden space-y-6"' in text
+    assert 'id="tab-history" data-tab-content="history" class="tab-content hidden space-y-4"' in text
+
+
 def test_index_html_endpoint(client: TestClient):
     response = client.get("/index.html")
     assert response.status_code == 200

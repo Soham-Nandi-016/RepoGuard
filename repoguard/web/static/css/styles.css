@@ -73,6 +73,7 @@ button, input, optgroup, select, textarea {
 
 button, [role="button"] {
   cursor: pointer;
+  background-color: transparent;
 }
 
 button:disabled {
@@ -374,10 +375,6 @@ a {
   background-color: #4C0519;
 }
 
-.bg-rose-950\/80 {
-  background-color: rgba(76, 5, 25, 0.8);
-}
-
 .bg-slate-100 {
   background-color: #F1F5F9;
 }
@@ -596,10 +593,6 @@ a {
 
 .border-indigo-950 {
   border-color: #1E1B4B;
-}
-
-.border-l-4 {
-  border-left-width: 4px;
 }
 
 .border-rose-100 {
@@ -876,7 +869,7 @@ a {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .hover\:bg-amber-100:hover {
@@ -1105,10 +1098,6 @@ a {
 
 .hover\:bg-slate-900:hover {
   background-color: #0F172A;
-}
-
-.hover\:bg-slate-900\/50:hover {
-  background-color: rgba(15, 23, 42, 0.5);
 }
 
 .hover\:bg-slate-950:hover {
@@ -1416,6 +1405,10 @@ a {
   max-width: 80rem;
 }
 
+.max-w-full {
+  max-width: 100%;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
@@ -1698,14 +1691,6 @@ a {
   right: 0px;
 }
 
-.ring-2 {
-  box-shadow: 0 0 0 2px var(--tw-ring-color, #4F46E5);
-}
-
-.ring-indigo-300 {
-  --tw-ring-color: #A5B4FC;
-}
-
 .rounded {
   border-radius: 0.25rem;
 }
@@ -1861,7 +1846,10 @@ a {
 }
 
 .tab-pane {
-  display: block;
+  /* tab container */
+}
+.tab-pane.hidden {
+  display: none !important;
 }
 
 .text-2xl {

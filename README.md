@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Build Status: 42 Passed](https://img.shields.io/badge/Tests-42%20Passed-emerald.svg)](#)
+[![Build Status: 43 Passed](https://img.shields.io/badge/Tests-43%20Passed-emerald.svg)](#)
 
 ---
 
