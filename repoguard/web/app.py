@@ -10,7 +10,7 @@ import tempfile
 import zipfile
 from pathlib import Path
 from typing import Optional, Dict, List
-from fastapi import FastAPI, Request, HTTPException, Query, UploadFile, File
+from fastapi import FastAPI, Request, HTTPException, Query, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -20,6 +20,7 @@ from repoguard.core.db import db
 from repoguard.reporting.html_report import generate_html_report
 from repoguard.reporting.json_report import generate_json_report
 from repoguard.scanners.hygiene_scanner import HygieneScanner
+from repoguard.scanner.github_loader import download_github_repo_zip, parse_github_url
 
 # In-memory store for uploaded scan file contents so the code viewer modal can display flagged lines
 UPLOADED_FILES_STORE: Dict[str, Dict[str, List[str]]] = {}
@@ -158,6 +159,118 @@ async def scan_upload(
 
         # Store in in-memory file cache keyed by upload_identifier
         UPLOADED_FILES_STORE[upload_identifier] = cached_files
+        if len(UPLOADED_FILES_STORE) > 30:
+            oldest_key = next(iter(UPLOADED_FILES_STORE))
+            del UPLOADED_FILES_STORE[oldest_key]
+
+        return JSONResponse(content=report_dict)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Scan error: {str(e)}")
+    finally:
+        # Guarantee auto-clean of temporary files
+        temp_dir_obj.cleanup()
+
+
+@app.post("/api/scan-github")
+async def scan_github(
+    request: Request,
+    repo_url: Optional[str] = Form(None),
+    save_to_db: Optional[bool] = None
+):
+    """
+    Download a public GitHub repository ZIP archive in-memory,
+    extract to an isolated temporary folder, execute the full audit pipeline
+    (AST security, PyPI license check, secrets, hygiene), cache file contents
+    in memory for the code inspector, and auto-clean temporary files.
+    """
+    target_url = repo_url
+    if not target_url:
+        target_url = request.query_params.get("repo_url")
+    if not target_url:
+        try:
+            body = await request.json()
+            if isinstance(body, dict):
+                target_url = body.get("repo_url")
+                if save_to_db is None and "save_to_db" in body:
+                    save_to_db = body["save_to_db"]
+        except Exception:
+            pass
+
+    if not target_url or not str(target_url).strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Missing required 'repo_url' parameter. Please provide a public GitHub repository URL."
+        )
+
+    target_url = str(target_url).strip()
+    should_save = True if save_to_db is None else bool(save_to_db)
+
+    # Validate and parse GitHub URL
+    try:
+        owner, repo = parse_github_url(target_url)
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    # Download repository archive in-memory (strictly zero cloud disk persistence)
+    try:
+        zip_buffer = download_github_repo_zip(target_url)
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Failed to download repository: {str(exc)}")
+
+    temp_dir_obj = tempfile.TemporaryDirectory(prefix="repoguard_github_")
+    try:
+        temp_dir = Path(temp_dir_obj.name).resolve()
+        scan_target = temp_dir
+
+        try:
+            if not zipfile.is_zipfile(zip_buffer):
+                raise HTTPException(status_code=400, detail="Downloaded content from GitHub is not a valid ZIP archive.")
+            with zipfile.ZipFile(zip_buffer, "r") as zf:
+                # Guard against Zip Slip / path traversal
+                for member in zf.infolist():
+                    extracted_path = (temp_dir / member.filename).resolve()
+                    if not str(extracted_path).startswith(str(temp_dir)):
+                        raise HTTPException(status_code=400, detail="ZIP archive contains unsafe path traversal.")
+                zf.extractall(temp_dir)
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Failed to extract GitHub repository ZIP archive: {str(e)}")
+
+        # Check if archive has a single top-level directory (e.g. GitHub repo-main)
+        child_items = [p for p in temp_dir.iterdir() if p.name not in ("__MACOSX", ".DS_Store")]
+        if len(child_items) == 1 and child_items[0].is_dir():
+            scan_target = child_items[0]
+
+        # Cache file lines in memory for code viewer modal
+        cached_files: Dict[str, List[str]] = {}
+        for f in scan_target.rglob("*"):
+            if f.is_file():
+                try:
+                    rel = str(f.relative_to(scan_target)).replace("\\", "/")
+                    cached_files[rel] = f.read_text(encoding="utf-8", errors="replace").splitlines()
+                except Exception:
+                    pass
+
+        # Execute scan via engine.run_scan
+        report = engine.run_scan(scan_target, save_to_db=should_save)
+
+        # Enhance report metadata with GitHub branding
+        display_name = f"{owner}/{repo}"
+        github_identifier = f"[GitHub] {owner}/{repo}"
+        report.repo_name = display_name
+        report.repo_path = github_identifier
+        report_dict = report.to_dict()
+        report_dict["repo_name"] = display_name
+        report_dict["repo_path"] = github_identifier
+
+        # Store in in-memory file cache keyed by github_identifier
+        UPLOADED_FILES_STORE[github_identifier] = cached_files
         if len(UPLOADED_FILES_STORE) > 30:
             oldest_key = next(iter(UPLOADED_FILES_STORE))
             del UPLOADED_FILES_STORE[oldest_key]

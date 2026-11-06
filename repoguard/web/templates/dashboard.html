@@ -205,6 +205,43 @@
           </div>
         </div>
 
+        <!-- Dedicated GitHub Repository URL Scanner -->
+        <div class="pt-3 border-t border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-700">
+              <svg class="w-4 h-4 text-slate-800" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              <span>Audit Remote GitHub Repository</span>
+            </div>
+            <span class="text-[11px] text-slate-400 hidden sm:inline">In-memory ZIP audit • Zero cloud persistence</span>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <div class="relative flex-1">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
+                🐙
+              </div>
+              <input
+                type="url"
+                id="github-repo-url-input"
+                placeholder="https://github.com/owner/repository"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-inner"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
+            <button
+              type="button"
+              id="github-scan-btn"
+              onclick="handleGithubScanSubmit(event)"
+              class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-black active:bg-slate-800 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 cursor-pointer"
+            >
+              <span id="github-scan-spinner" class="hidden animate-spin">🔄</span>
+              <span id="github-scan-text">Scan GitHub Repo</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Dropzone Interactive Area & Format Pills -->
         <div
           id="dropzone-area"
@@ -220,6 +257,10 @@
               <span>Local Path (e.g. C:/... or samples/...)</span>
             </span>
             <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>🐙</span>
+              <span>Public GitHub Repo (https://github.com/...)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
               <span>🐍</span>
               <span>Single Python (.py)</span>
             </span>
@@ -229,7 +270,7 @@
             </span>
           </div>
           <p class="text-[11px] text-slate-400 mt-2">
-            Paste a folder path above, or drag and drop any <strong class="text-slate-600">.py</strong> file or <strong class="text-slate-600">.zip</strong> archive directly anywhere on this card.
+            Paste a local folder path or GitHub URL above, or drag and drop any <strong class="text-slate-600">.py</strong> file or <strong class="text-slate-600">.zip</strong> archive directly anywhere on this card.
           </p>
         </div>
       </form>
@@ -719,6 +760,22 @@
       runScan(path);
     }
 
+    function isGitHubUrl(str) {
+      if (!str) return false;
+      return /github\.com\/[^\/]+\/[^\/]+/i.test(str.trim());
+    }
+
+    function handleGithubScanSubmit(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const ghInput = document.getElementById('github-repo-url-input');
+      const url = ghInput ? ghInput.value.trim() : "";
+      if (!url) {
+        showErrorMessage("Please enter a valid public GitHub repository URL (e.g. https://github.com/owner/repo).");
+        return;
+      }
+      runScanGithub(url);
+    }
+
     function handleScanSubmit(e) {
       e.preventDefault();
       if (stagedFile) {
@@ -727,10 +784,15 @@
       }
 
       const path = document.getElementById('repo-path-input').value.trim();
+      if (isGitHubUrl(path)) {
+        runScanGithub(path);
+        return;
+      }
+
       if (path) {
         runScan(path);
       } else {
-        showErrorMessage("Please enter a local repository path or select a .py / .zip file.");
+        showErrorMessage("Please enter a local repository path, GitHub URL, or select a .py / .zip file.");
       }
     }
 
@@ -788,6 +850,58 @@
         scanBtn.disabled = false;
         scanText.textContent = "Run Security Audit";
         scanSpinner.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultsSection.classList.remove('opacity-50');
+      }
+    }
+
+    async function runScanGithub(repoUrl) {
+      const ghBtn = document.getElementById('github-scan-btn');
+      const ghText = document.getElementById('github-scan-text');
+      const ghSpinner = document.getElementById('github-scan-spinner');
+      const scanBtn = document.getElementById('scan-btn');
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+      const resultsSection = document.getElementById('results-section');
+
+      if (ghBtn) ghBtn.disabled = true;
+      if (scanBtn) scanBtn.disabled = true;
+      if (ghText) ghText.textContent = "Fetching & Auditing...";
+      if (ghSpinner) ghSpinner.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('opacity-50');
+
+      try {
+        const formData = new FormData();
+        formData.append('repo_url', repoUrl);
+
+        const response = await fetch('/api/scan-github', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Failed to scan GitHub repository.');
+        }
+
+        const data = await response.json();
+        currentReport = data;
+        renderReport(data);
+
+        // Show export buttons
+        document.getElementById('btn-export-html').classList.remove('hidden');
+        document.getElementById('btn-export-json').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('error-message').textContent = err.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        if (ghBtn) ghBtn.disabled = false;
+        if (scanBtn) scanBtn.disabled = false;
+        if (ghText) ghText.textContent = "Scan GitHub Repo";
+        if (ghSpinner) ghSpinner.classList.add('hidden');
         loadingState.classList.add('hidden');
         resultsSection.classList.remove('opacity-50');
       }
@@ -1288,7 +1402,7 @@
     // Export Helpers
     function exportHtmlReport() {
       if (!currentReport) return;
-      if (currentReport.repo_path && !currentReport.repo_path.startsWith('[Upload]')) {
+      if (currentReport.repo_path && !currentReport.repo_path.startsWith('[Upload]') && !currentReport.repo_path.startsWith('[GitHub]')) {
         window.location.href = `/api/export/html?path=${encodeURIComponent(currentReport.repo_path)}`;
       } else if (currentReport.id) {
         window.location.href = `/api/export/html?scan_id=${currentReport.id}`;

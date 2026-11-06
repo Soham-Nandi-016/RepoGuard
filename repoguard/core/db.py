@@ -3,6 +3,7 @@ RepoGuard Database Layer
 SQLite storage for scan history and offline PyPI license cache.
 """
 
+import os
 import sqlite3
 import json
 from pathlib import Path
@@ -10,7 +11,21 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 
-DEFAULT_DB_PATH = Path.home() / ".repoguard" / "repoguard.db"
+def _resolve_default_db_path() -> Path:
+    env_path = os.environ.get("REPOGUARD_DB_PATH")
+    if env_path:
+        return Path(env_path)
+    local_dir = Path(__file__).resolve().parent.parent.parent / ".repoguard"
+    try:
+        if (local_dir.parent / "pyproject.toml").exists():
+            local_dir.mkdir(parents=True, exist_ok=True)
+            return local_dir / "repoguard.db"
+    except Exception:
+        pass
+    return Path.home() / ".repoguard" / "repoguard.db"
+
+
+DEFAULT_DB_PATH = _resolve_default_db_path()
 
 
 class Database:
@@ -18,7 +33,10 @@ class Database:
         if db_path is None:
             db_path = DEFAULT_DB_PATH
         self.db_path = Path(db_path)
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        except Exception:
+            pass
         self._init_db()
 
     def _get_connection(self) -> sqlite3.Connection:

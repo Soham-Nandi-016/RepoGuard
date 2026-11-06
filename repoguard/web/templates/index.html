@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoGuard | Protect Every Repository</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Clean Brand Logo & Tagline -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm font-bold text-lg select-none">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-extrabold text-slate-900 text-lg tracking-tight">RepoGuard</span>
+            <span class="text-slate-300 font-light">|</span>
+            <span class="text-sm font-semibold text-slate-700">Protect Every Repository</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">v1.0.0</span>
+          </div>
+          <p class="text-xs text-slate-500">Open Source Static Analysis & Compliance Engine</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons & GitHub link -->
+      <div class="flex items-center space-x-3">
+        <button id="btn-export-html" onclick="exportHtmlReport()" class="hidden px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition flex items-center space-x-1.5">
+          <span>📄 Export HTML</span>
+        </button>
+        <button id="btn-export-json" onclick="exportJsonReport()" class="hidden px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition flex items-center space-x-1.5">
+          <span>💾 Export JSON</span>
+        </button>
+        <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
+        <a href="https://github.com/Soham-Nandi-016/RepoGuard" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-semibold shadow-xs transition" title="View Source on GitHub">
+          <svg class="w-4 h-4 text-slate-800" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span class="hidden sm:inline">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
+
+    <!-- Unified Smart Dropzone Card -->
+    <div id="dropzone-card" class="bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 transition-all duration-200 p-6 sm:p-7 shadow-xs relative overflow-hidden">
+      
+      <!-- Drag Over Visual Overlay Indicator -->
+      <div id="drop-overlay" class="absolute inset-0 bg-indigo-50/95 border-2 border-dashed border-indigo-500 rounded-2xl z-20 flex flex-col items-center justify-center pointer-events-none hidden backdrop-blur-[1px] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-md mb-2 animate-bounce">
+          📥
+        </div>
+        <p class="text-base font-bold text-indigo-900">Drop your file or archive here</p>
+        <p class="text-xs text-indigo-700 mt-0.5">Supports single <span class="font-semibold">.py</span> scripts or <span class="font-semibold">.zip</span> repository archives</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Repository & Code Inspector</h1>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">Local Engine</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Zero cloud uploads. Evaluates Python AST security, hardcoded secrets, PyPI license compatibility, and baseline files locally.</p>
+        </div>
+        <!-- Quick Preset Buttons -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-medium text-slate-400">Presets:</span>
+          <button type="button" onclick="setPathPreset('samples/vulnerable_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition shadow-2xs">
+            ⚠️ Vulnerable Demo
+          </button>
+          <button type="button" onclick="setPathPreset('samples/clean_repo')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition shadow-2xs">
+            ✓ Clean Demo
+          </button>
+          <button type="button" onclick="setPathPreset('.')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 transition shadow-2xs">
+            RepoGuard Workspace
+          </button>
+        </div>
+      </div>
+
+      <!-- Unified Input & Upload Form -->
+      <form id="scan-form" onsubmit="handleScanSubmit(event)" class="space-y-3">
+        <!-- Hidden file selector -->
+        <input
+          type="file"
+          id="file-selector"
+          accept=".py,.zip"
+          class="hidden"
+          onchange="handleFileSelect(event)"
+        />
+
+        <!-- Smart Input Container -->
+        <div class="relative flex flex-col sm:flex-row gap-2.5">
+          <div class="relative flex-1 group">
+            <!-- Dynamic Mode Icon (Folder, Python, or ZIP) -->
+            <div id="input-mode-icon" class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-base transition">
+              📁
+            </div>
+
+            <!-- Unified Text Input -->
+            <input
+              type="text"
+              id="repo-path-input"
+              value="samples/vulnerable_repo"
+              placeholder="Paste local folder path or drop a .py / .zip archive..."
+              oninput="handlePathInput(event)"
+              class="w-full pl-10 pr-24 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-inner"
+              autocomplete="off"
+              spellcheck="false"
+            />
+
+            <!-- Clear/Unstage Staged File Button & Browse Trigger inside input -->
+            <div id="staged-actions" class="absolute inset-y-0 right-0 pr-2 flex items-center space-x-1.5">
+              <button
+                type="button"
+                id="btn-clear-staged"
+                onclick="clearStagedInput()"
+                title="Clear input"
+                class="w-6 h-6 rounded-md hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center text-xs font-bold transition"
+              >
+                ✕
+              </button>
+              <button
+                type="button"
+                onclick="triggerFileBrowse()"
+                title="Browse file (.py or .zip)"
+                class="px-2 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 text-xs font-semibold shadow-2xs transition flex items-center space-x-1 cursor-pointer"
+              >
+                <span>📂</span>
+                <span class="hidden md:inline">Browse</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit / Run Scan Button -->
+          <button
+            type="submit"
+            id="scan-btn"
+            class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 cursor-pointer"
+          >
+            <span id="scan-btn-spinner" class="hidden animate-spin">🔄</span>
+            <span id="scan-btn-text">Run Security Audit</span>
+          </button>
+        </div>
+
+        <!-- Staged File Status Banner (dynamically shown when a file is staged) -->
+        <div id="staged-file-card" class="hidden rounded-xl border border-indigo-200 bg-indigo-50/70 p-3 flex items-center justify-between text-xs text-indigo-900 transition">
+          <div class="flex items-center space-x-2.5 truncate">
+            <span id="staged-file-icon" class="text-base shrink-0">📦</span>
+            <div class="truncate">
+              <span class="font-bold text-slate-900" id="staged-file-name">filename.zip</span>
+              <span class="text-indigo-600 ml-1.5 font-mono" id="staged-file-size">(0 KB)</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0 ml-3">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-indigo-700 bg-indigo-100/90 px-2 py-0.5 rounded border border-indigo-200">
+              Ready to Scan
+            </span>
+            <button
+              type="button"
+              onclick="clearStagedInput()"
+              class="w-6 h-6 rounded-md hover:bg-indigo-100 text-indigo-600 hover:text-indigo-900 flex items-center justify-center font-bold cursor-pointer"
+              title="Remove staged file"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Dedicated GitHub Repository URL Scanner -->
+        <div class="pt-3 border-t border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-700">
+              <svg class="w-4 h-4 text-slate-800" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              <span>Audit Remote GitHub Repository</span>
+            </div>
+            <span class="text-[11px] text-slate-400 hidden sm:inline">In-memory ZIP audit • Zero cloud persistence</span>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <div class="relative flex-1">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
+                🐙
+              </div>
+              <input
+                type="url"
+                id="github-repo-url-input"
+                placeholder="https://github.com/owner/repository"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 text-sm font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-inner"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
+            <button
+              type="button"
+              id="github-scan-btn"
+              onclick="handleGithubScanSubmit(event)"
+              class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-black active:bg-slate-800 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 cursor-pointer"
+            >
+              <span id="github-scan-spinner" class="hidden animate-spin">🔄</span>
+              <span id="github-scan-text">Scan GitHub Repo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dropzone Interactive Area & Format Pills -->
+        <div
+          id="dropzone-area"
+          onclick="triggerFileBrowse()"
+          class="border-2 border-dashed border-slate-200 hover:border-indigo-400 bg-slate-50/60 hover:bg-indigo-50/30 rounded-xl p-3.5 transition text-center cursor-pointer group"
+        >
+          <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs text-slate-500">
+            <span class="font-semibold text-slate-700 group-hover:text-indigo-600 transition flex items-center space-x-1">
+              <span>⚡ Seamless Input Dropzone:</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>📁</span>
+              <span>Local Path (e.g. C:/... or samples/...)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>🐙</span>
+              <span>Public GitHub Repo (https://github.com/...)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>🐍</span>
+              <span>Single Python (.py)</span>
+            </span>
+            <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+              <span>📦</span>
+              <span>Repository Archive (.zip)</span>
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">
+            Paste a local folder path or GitHub URL above, or drag and drop any <strong class="text-slate-600">.py</strong> file or <strong class="text-slate-600">.zip</strong> archive directly anywhere on this card.
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="hidden bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-xs">
+      <div class="inline-block animate-spin text-4xl mb-3">⚙️</div>
+      <h3 class="text-base font-bold text-slate-800">Analyzing Repository Compliance...</h3>
+      <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Parsing Abstract Syntax Trees, auditing PyPI dependencies, matching secret entropy signatures, and evaluating baseline files.</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden bg-rose-50 border border-rose-200 rounded-2xl p-5 text-rose-800 text-sm">
+      <div class="font-bold flex items-center space-x-2">
+        <span>❌ Audit Failed</span>
+      </div>
+      <div id="error-message" class="mt-1 text-xs text-rose-700"></div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="space-y-8">
+
+      <!-- Top Summary Metrics Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div>
+            <div class="flex items-center space-x-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+              <span>Scan Results</span>
+              <span>•</span>
+              <span id="stat-timestamp" class="font-mono text-slate-400">Ready</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-3">
+              <span id="stat-repo-name">Repository</span>
+              <span id="stat-grade-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                Grade -
+              </span>
+            </h2>
+            <p id="stat-repo-path" class="text-xs text-slate-500 mt-1 font-mono truncate max-w-xl">Path</p>
+          </div>
+
+          <!-- Circular Score & Grade Display -->
+          <div class="flex items-center space-x-5 self-start lg:self-center">
+            <div class="text-right">
+              <div class="text-xs uppercase font-semibold text-slate-400">Health Score</div>
+              <div class="text-4xl font-extrabold text-slate-900 tracking-tight">
+                <span id="stat-score">100</span><span class="text-xl text-slate-400 font-normal">/100</span>
+              </div>
+              <div id="stat-issues-total" class="text-xs text-slate-500 mt-0.5">0 issues detected</div>
+            </div>
+            <div id="stat-grade-circle" class="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center font-black text-2xl text-indigo-700 shadow-xs">
+              -
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Metrics Cards Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-slate-100">
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Critical Alerts</div>
+            <div id="stat-critical-count" class="text-xl font-bold text-rose-600 mt-0.5">0</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Warnings</div>
+            <div id="stat-warning-count" class="text-xl font-bold text-amber-600 mt-0.5">0</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Project License</div>
+            <div id="stat-project-license" class="text-sm font-bold text-slate-800 mt-1 truncate" title="Project License">None</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Dependencies</div>
+            <div id="stat-deps-count" class="text-xl font-bold text-indigo-600 mt-0.5">0</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Files Scanned</div>
+            <div id="stat-files-count" class="text-xl font-bold text-slate-800 mt-0.5">0</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="text-xs font-medium text-slate-500">Duration</div>
+            <div id="stat-duration" class="text-xl font-bold text-slate-800 mt-0.5">0.00s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="border-b border-slate-200 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
+        <button onclick="switchTab('ast')" id="tab-btn-ast" class="pb-3 text-indigo-600 border-b-2 border-indigo-600 flex items-center space-x-2">
+          <span>🛡️ AST Security Vulnerabilities</span>
+          <span id="tab-badge-ast" class="px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700">0</span>
+        </button>
+        <button onclick="switchTab('license')" id="tab-btn-license" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+          <span>📜 License Compliance</span>
+          <span id="tab-badge-license" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
+        </button>
+        <button onclick="switchTab('secrets')" id="tab-btn-secrets" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+          <span>🔑 Secrets & Leaks</span>
+          <span id="tab-badge-secrets" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
+        </button>
+        <button onclick="switchTab('hygiene')" id="tab-btn-hygiene" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+          <span>📋 Repo Hygiene Checklist</span>
+          <span id="tab-badge-hygiene" class="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">0</span>
+        </button>
+        <button onclick="switchTab('history')" id="tab-btn-history" class="pb-3 text-slate-500 hover:text-slate-800 border-b-2 border-transparent flex items-center space-x-2">
+          <span>🕒 Scan History</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: AST Security Scanner -->
+      <div id="tab-ast" class="tab-pane space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Python AST Security Scanner</h3>
+            <p class="text-xs text-slate-500">Flags dangerous calls (eval, exec, os.system, shell=True), insecure deserialization (pickle, yaml), and unparameterized SQL.</p>
+          </div>
+          <!-- Severity Filter -->
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-slate-400">Filter:</span>
+            <button onclick="filterAstIssues('ALL')" id="ast-filter-all" class="px-2.5 py-1 rounded-md font-semibold bg-slate-200 text-slate-800">All</button>
+            <button onclick="filterAstIssues('CRITICAL')" id="ast-filter-critical" class="px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Critical</button>
+            <button onclick="filterAstIssues('WARNING')" id="ast-filter-warning" class="px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Warning</button>
+          </div>
+        </div>
+
+        <div id="ast-issues-list" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- TAB 2: License Compliance -->
+      <div id="tab-license" class="tab-pane hidden space-y-6">
+        <!-- Project License Summary Box -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900">Project License Assessment</h3>
+          <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div id="license-project-badge" class="px-3.5 py-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-sm">
+              Detected: None
+            </div>
+            <div id="license-project-desc" class="text-xs text-slate-600 max-w-2xl">
+              Checking license...
+            </div>
+          </div>
+        </div>
+
+        <!-- License Conflicts Alert Container -->
+        <div id="license-conflicts-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Dependencies Table -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h4 class="font-bold text-slate-900 text-sm">Audited Dependencies</h4>
+            <span class="text-xs text-slate-400">Live PyPI lookup with local cache</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">Package</th>
+                  <th class="py-3 px-4">Specified Version</th>
+                  <th class="py-3 px-4">Declared License</th>
+                  <th class="py-3 px-4">License Category</th>
+                  <th class="py-3 px-4">Source</th>
+                  <th class="py-3 px-4 text-center">Compatibility</th>
+                </tr>
+              </thead>
+              <tbody id="dependencies-table-body" class="divide-y divide-slate-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Secrets & Leaks -->
+      <div id="tab-secrets" class="tab-pane hidden space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Hardcoded Secrets & Credential Leaks</h3>
+          <p class="text-xs text-slate-500">Regex and Shannon entropy matching for OpenAI keys, AWS credentials, database URIs, JWTs, and private keys.</p>
+        </div>
+
+        <div id="secrets-issues-list" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- TAB 4: Repo Hygiene Checklist -->
+      <div id="tab-hygiene" class="tab-pane hidden space-y-6">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm">Essential Open Source Health Baseline</h3>
+              <p class="text-xs text-slate-500">Standard repository hygiene files required for open source compliance and community safety.</p>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">Baseline File</th>
+                  <th class="py-3 px-4 text-center">Required</th>
+                  <th class="py-3 px-4 text-center">Status</th>
+                  <th class="py-3 px-4 text-right">File Size</th>
+                  <th class="py-3 px-4">Inspection Result</th>
+                  <th class="py-3 px-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="hygiene-table-body" class="divide-y divide-slate-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Additional hygiene flags container -->
+        <div id="hygiene-extra-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- TAB 5: Scan History -->
+      <div id="tab-history" class="tab-pane hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Audit History</h3>
+            <p class="text-xs text-slate-500">Persisted locally in SQLite database.</p>
+          </div>
+          <button onclick="loadHistory()" class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs">
+            🔄 Refresh
+          </button>
+        </div>
+
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">Timestamp</th>
+                  <th class="py-3 px-4">Repository</th>
+                  <th class="py-3 px-4">Score</th>
+                  <th class="py-3 px-4 text-center">Grade</th>
+                  <th class="py-3 px-4 text-center">Critical</th>
+                  <th class="py-3 px-4 text-center">Warnings</th>
+                  <th class="py-3 px-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body" class="divide-y divide-slate-100">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Line-by-line Code Viewer Modal -->
+  <div id="code-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 max-w-4xl w-full max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <div class="text-xs text-slate-400 font-mono" id="modal-file-path">path/to/file.py</div>
+          <h3 class="text-base font-bold text-slate-900 mt-0.5" id="modal-issue-title">Line Viewer</h3>
+        </div>
+        <button onclick="closeCodeModal()" class="w-8 h-8 rounded-lg hover:bg-slate-200 flex items-center justify-center text-slate-500 text-lg font-bold">
+          ✕
+        </button>
+      </div>
+
+      <!-- Recommendation Notice -->
+      <div id="modal-rec-box" class="px-6 py-3 bg-indigo-50/70 border-b border-indigo-100 text-xs text-indigo-900 flex items-start space-x-2">
+        <span class="font-bold">💡 Fix:</span>
+        <span id="modal-recommendation">Recommendation here</span>
+      </div>
+
+      <!-- Line-by-Line Code Viewer Body -->
+      <div class="p-6 overflow-y-auto flex-1 font-mono text-xs bg-slate-950 text-slate-100" id="modal-code-container">
+        <!-- Rendered lines -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-end space-x-3">
+        <button onclick="closeCodeModal()" class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold shadow-xs">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Boilerplate Modal -->
+  <div id="template-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <span class="text-xs font-semibold text-indigo-600 uppercase">Starter Template</span>
+          <h3 class="text-base font-bold text-slate-900 mt-0.5" id="template-modal-title">SECURITY.md</h3>
+        </div>
+        <button onclick="closeTemplateModal()" class="w-8 h-8 rounded-lg hover:bg-slate-200 flex items-center justify-center text-slate-500 text-lg font-bold">
+          ✕
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto flex-1 font-mono text-xs bg-slate-50 text-slate-800">
+        <pre id="template-modal-body" class="whitespace-pre-wrap select-all"></pre>
+      </div>
+      <div class="px-6 py-3 border-t border-slate-200 bg-white flex items-center justify-between">
+        <span id="copy-status" class="text-xs text-emerald-600 font-semibold hidden">Copied to clipboard!</span>
+        <div class="flex items-center space-x-2 ml-auto">
+          <button onclick="copyTemplateText()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm transition">
+            📋 Copy Template
+          </button>
+          <button onclick="closeTemplateModal()" class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold shadow-xs">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-16 border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-slate-800">RepoGuard v1.0.0</span>
+        <span>—</span>
+        <span>Open Source Static Analysis Engine (GPLv3 License)</span>
+      </div>
+      <div class="text-slate-400">Zero Cloud Uploads • 100% Local CPU Execution</div>
+    </div>
+  </footer>
+
+  <!-- Dashboard JavaScript Logic -->
+  <script>
+    let currentReport = null;
+    let astFilter = 'ALL';
+    let stagedFile = null;
+
+    // Auto-scan default preset on page load and initialize smart dropzone
+    document.addEventListener('DOMContentLoaded', () => {
+      setupDropzone();
+      runScan('samples/vulnerable_repo');
+      loadHistory();
+    });
+
+    function setupDropzone() {
+      const dropzoneCard = document.getElementById('dropzone-card');
+      const dropOverlay = document.getElementById('drop-overlay');
+      const inputEl = document.getElementById('repo-path-input');
+
+      // Prevent default drag behaviors on window to stop browser opening files
+      window.addEventListener('dragover', (e) => e.preventDefault(), false);
+      window.addEventListener('drop', (e) => e.preventDefault(), false);
+
+      let dragCounter = 0;
+
+      dropzoneCard.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter++;
+        dropOverlay.classList.remove('hidden');
+        dropzoneCard.classList.add('border-indigo-500', 'ring-2', 'ring-indigo-300');
+      });
+
+      dropzoneCard.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      dropzoneCard.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter--;
+        if (dragCounter <= 0) {
+          dragCounter = 0;
+          dropOverlay.classList.add('hidden');
+          dropzoneCard.classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-300');
+        }
+      });
+
+      dropzoneCard.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragCounter = 0;
+        dropOverlay.classList.add('hidden');
+        dropzoneCard.classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-300');
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+          stageFile(files[0]);
+        } else {
+          const text = e.dataTransfer.getData('text/plain');
+          if (text) {
+            clearStagedInput();
+            inputEl.value = text.trim();
+            document.getElementById('btn-clear-staged').classList.remove('hidden');
+          }
+        }
+      });
+
+      // Handle clipboard paste of files into the input
+      inputEl.addEventListener('paste', (e) => {
+        if (e.clipboardData && e.clipboardData.files && e.clipboardData.files.length > 0) {
+          e.preventDefault();
+          stageFile(e.clipboardData.files[0]);
+        }
+      });
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes || isNaN(bytes)) return '0 B';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function stageFile(file) {
+      const lower = file.name.toLowerCase();
+      const isZip = lower.endsWith('.zip');
+      const isPy = lower.endsWith('.py');
+
+      if (!isZip && !isPy) {
+        showErrorMessage("Unsupported file type. Please upload a single .py file or a .zip repository archive.");
+        return;
+      }
+
+      stagedFile = file;
+      const icon = isZip ? '📦' : '🐍';
+
+      // Update UI elements
+      document.getElementById('input-mode-icon').textContent = icon;
+      document.getElementById('staged-file-icon').textContent = icon;
+      document.getElementById('staged-file-name').textContent = file.name;
+      document.getElementById('staged-file-size').textContent = `(${formatFileSize(file.size)})`;
+      document.getElementById('staged-file-card').classList.remove('hidden');
+      document.getElementById('repo-path-input').value = file.name;
+      document.getElementById('btn-clear-staged').classList.remove('hidden');
+
+      hideErrorMessage();
+    }
+
+    function clearStagedInput() {
+      stagedFile = null;
+      document.getElementById('file-selector').value = '';
+      document.getElementById('input-mode-icon').textContent = '📁';
+      document.getElementById('staged-file-card').classList.add('hidden');
+      document.getElementById('btn-clear-staged').classList.add('hidden');
+      const inputEl = document.getElementById('repo-path-input');
+      inputEl.value = '';
+      inputEl.focus();
+    }
+
+    function handlePathInput(e) {
+      const val = e.target.value;
+      if (stagedFile) {
+        // User started typing over a staged file -> switch to manual path mode
+        stagedFile = null;
+        document.getElementById('file-selector').value = '';
+        document.getElementById('input-mode-icon').textContent = '📁';
+        document.getElementById('staged-file-card').classList.add('hidden');
+      }
+
+      const clearBtn = document.getElementById('btn-clear-staged');
+      if (val.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    function triggerFileBrowse() {
+      document.getElementById('file-selector').click();
+    }
+
+    function handleFileSelect(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        stageFile(e.target.files[0]);
+      }
+    }
+
+    function setPathPreset(path) {
+      clearStagedInput();
+      document.getElementById('repo-path-input').value = path;
+      document.getElementById('btn-clear-staged').classList.remove('hidden');
+      runScan(path);
+    }
+
+    function isGitHubUrl(str) {
+      if (!str) return false;
+      return /github\.com\/[^\/]+\/[^\/]+/i.test(str.trim());
+    }
+
+    function handleGithubScanSubmit(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const ghInput = document.getElementById('github-repo-url-input');
+      const url = ghInput ? ghInput.value.trim() : "";
+      if (!url) {
+        showErrorMessage("Please enter a valid public GitHub repository URL (e.g. https://github.com/owner/repo).");
+        return;
+      }
+      runScanGithub(url);
+    }
+
+    function handleScanSubmit(e) {
+      e.preventDefault();
+      if (stagedFile) {
+        runScanUpload(stagedFile);
+        return;
+      }
+
+      const path = document.getElementById('repo-path-input').value.trim();
+      if (isGitHubUrl(path)) {
+        runScanGithub(path);
+        return;
+      }
+
+      if (path) {
+        runScan(path);
+      } else {
+        showErrorMessage("Please enter a local repository path, GitHub URL, or select a .py / .zip file.");
+      }
+    }
+
+    function showErrorMessage(msg) {
+      const errorState = document.getElementById('error-state');
+      document.getElementById('error-message').textContent = msg;
+      errorState.classList.remove('hidden');
+    }
+
+    function hideErrorMessage() {
+      document.getElementById('error-state').classList.add('hidden');
+    }
+
+    async function runScanUpload(file) {
+      const scanBtn = document.getElementById('scan-btn');
+      const scanText = document.getElementById('scan-btn-text');
+      const scanSpinner = document.getElementById('scan-btn-spinner');
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+      const resultsSection = document.getElementById('results-section');
+
+      scanBtn.disabled = true;
+      scanText.textContent = "Uploading & Scanning...";
+      scanSpinner.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('opacity-50');
+
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch('/api/scan-upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Failed to scan uploaded file.');
+        }
+
+        const data = await response.json();
+        currentReport = data;
+        renderReport(data);
+
+        // Show export buttons
+        document.getElementById('btn-export-html').classList.remove('hidden');
+        document.getElementById('btn-export-json').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('error-message').textContent = err.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        scanBtn.disabled = false;
+        scanText.textContent = "Run Security Audit";
+        scanSpinner.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultsSection.classList.remove('opacity-50');
+      }
+    }
+
+    async function runScanGithub(repoUrl) {
+      const ghBtn = document.getElementById('github-scan-btn');
+      const ghText = document.getElementById('github-scan-text');
+      const ghSpinner = document.getElementById('github-scan-spinner');
+      const scanBtn = document.getElementById('scan-btn');
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+      const resultsSection = document.getElementById('results-section');
+
+      if (ghBtn) ghBtn.disabled = true;
+      if (scanBtn) scanBtn.disabled = true;
+      if (ghText) ghText.textContent = "Fetching & Auditing...";
+      if (ghSpinner) ghSpinner.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('opacity-50');
+
+      try {
+        const formData = new FormData();
+        formData.append('repo_url', repoUrl);
+
+        const response = await fetch('/api/scan-github', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Failed to scan GitHub repository.');
+        }
+
+        const data = await response.json();
+        currentReport = data;
+        renderReport(data);
+
+        // Show export buttons
+        document.getElementById('btn-export-html').classList.remove('hidden');
+        document.getElementById('btn-export-json').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('error-message').textContent = err.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        if (ghBtn) ghBtn.disabled = false;
+        if (scanBtn) scanBtn.disabled = false;
+        if (ghText) ghText.textContent = "Scan GitHub Repo";
+        if (ghSpinner) ghSpinner.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultsSection.classList.remove('opacity-50');
+      }
+    }
+
+    async function runScan(repoPath) {
+      const scanBtn = document.getElementById('scan-btn');
+      const scanText = document.getElementById('scan-btn-text');
+      const scanSpinner = document.getElementById('scan-btn-spinner');
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+      const resultsSection = document.getElementById('results-section');
+
+      scanBtn.disabled = true;
+      scanText.textContent = "Scanning...";
+      scanSpinner.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('opacity-50');
+
+      try {
+        const response = await fetch('/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path: repoPath, save_to_db: true })
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Failed to scan repository.');
+        }
+
+        const data = await response.json();
+        currentReport = data;
+        renderReport(data);
+
+        // Show export buttons
+        document.getElementById('btn-export-html').classList.remove('hidden');
+        document.getElementById('btn-export-json').classList.remove('hidden');
+        loadHistory();
+      } catch (err) {
+        document.getElementById('error-message').textContent = err.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        scanBtn.disabled = false;
+        scanText.textContent = "Run Security Audit";
+        scanSpinner.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultsSection.classList.remove('opacity-50');
+      }
+    }
+
+    function renderReport(report) {
+      const summary = report.summary;
+
+      // Stats Header
+      document.getElementById('stat-repo-name').textContent = report.repo_name;
+      document.getElementById('stat-repo-path').textContent = report.repo_path;
+      document.getElementById('stat-timestamp').textContent = summary.timestamp;
+      document.getElementById('stat-score').textContent = summary.health_score;
+      document.getElementById('stat-issues-total').textContent = `${summary.total_issues} issues detected`;
+      document.getElementById('stat-critical-count').textContent = summary.critical_count;
+      document.getElementById('stat-warning-count').textContent = summary.warning_count;
+      document.getElementById('stat-deps-count').textContent = report.dependencies.length;
+      document.getElementById('stat-files-count').textContent = summary.files_scanned;
+      document.getElementById('stat-duration').textContent = `${summary.scan_duration_seconds.toFixed(2)}s`;
+
+      const projLic = summary.project_license ? summary.project_license.spdx_id : 'Unknown';
+      document.getElementById('stat-project-license').textContent = projLic;
+
+      // Grade formatting
+      const grade = summary.grade;
+      const gradeBadge = document.getElementById('stat-grade-badge');
+      const gradeCircle = document.getElementById('stat-grade-circle');
+      gradeBadge.textContent = `Grade ${grade}`;
+      gradeCircle.textContent = grade;
+
+      if (summary.health_score >= 90) {
+        gradeCircle.className = "w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center font-black text-2xl text-emerald-700 shadow-xs";
+        gradeBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+      } else if (summary.health_score >= 70) {
+        gradeCircle.className = "w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center font-black text-2xl text-indigo-700 shadow-xs";
+        gradeBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200";
+      } else if (summary.health_score >= 55) {
+        gradeCircle.className = "w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center font-black text-2xl text-amber-700 shadow-xs";
+        gradeBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200";
+      } else {
+        gradeCircle.className = "w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center font-black text-2xl text-rose-700 shadow-xs";
+        gradeBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200";
+      }
+
+      // Tab badges
+      document.getElementById('tab-badge-ast').textContent = report.ast_issues.length;
+      document.getElementById('tab-badge-license').textContent = report.dependencies.length;
+      document.getElementById('tab-badge-secrets').textContent = report.secret_issues.length;
+      document.getElementById('tab-badge-hygiene').textContent = report.hygiene_checks.length;
+
+      // Render Tabs
+      renderAstIssues(report.ast_issues);
+      renderLicenseTab(report);
+      renderSecretsTab(report.secret_issues);
+      renderHygieneTab(report.hygiene_checks, report.other_hygiene_issues);
+    }
+
+    function renderAstIssues(issues) {
+      const container = document.getElementById('ast-issues-list');
+      const filtered = issues.filter(i => {
+        if (astFilter === 'ALL') return true;
+        return i.severity === astFilter;
+      });
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="bg-white rounded-xl border border-slate-200 p-8 text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto text-xl font-bold mb-2">✓</div>
+            <h4 class="font-bold text-slate-800">No AST Security Issues Found</h4>
+            <p class="text-xs text-slate-500 mt-1">Python source code parsed successfully without dangerous calls or SQL injection.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map((issue, idx) => {
+        const isCrit = issue.severity === 'CRITICAL';
+        const sevClass = isCrit
+          ? 'bg-rose-50 text-rose-700 border-rose-200'
+          : 'bg-amber-50 text-amber-700 border-amber-200';
+
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs transition hover:border-slate-300">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border ${sevClass}">
+                  ${issue.severity}
+                </span>
+                <span class="font-mono text-xs font-semibold text-slate-500">${issue.id}</span>
+                ${issue.cwe_id ? `<span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">${issue.cwe_id}</span>` : ''}
+              </div>
+              <div class="flex items-center space-x-3 text-xs">
+                <span class="font-mono text-slate-500 truncate">${issue.file_path}:${issue.line_number || 0}</span>
+                <button onclick="openCodeViewer('${issue.file_path}', ${issue.line_number || 1}, '${encodeURIComponent(issue.title)}', '${encodeURIComponent(issue.recommendation)}')" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-indigo-600 font-semibold transition">
+                  🔍 View Code
+                </button>
+              </div>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-2.5">${issue.title}</h4>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">${issue.description}</p>
+
+            ${issue.code_snippet ? `
+              <div class="mt-3 bg-slate-950 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto border border-slate-800">
+                <pre>${escapeHtml(issue.code_snippet)}</pre>
+              </div>
+            ` : ''}
+
+            <div class="mt-3 p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-xs text-emerald-900 flex items-start space-x-2">
+              <span class="font-bold text-emerald-800 shrink-0">💡 Recommendation:</span>
+              <span>${issue.recommendation}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAstIssues(filter) {
+      astFilter = filter;
+      ['all', 'critical', 'warning'].forEach(f => {
+        const btn = document.getElementById('ast-filter-' + f);
+        if (f.toUpperCase() === filter) {
+          btn.className = "px-2.5 py-1 rounded-md font-semibold bg-slate-200 text-slate-800";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-md font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200";
+        }
+      });
+      if (currentReport) {
+        renderAstIssues(currentReport.ast_issues);
+      }
+    }
+
+    function renderLicenseTab(report) {
+      const proj = report.summary.project_license;
+      const projBadge = document.getElementById('license-project-badge');
+      const projDesc = document.getElementById('license-project-desc');
+
+      if (proj) {
+        projBadge.textContent = `${proj.name} (${proj.spdx_id})`;
+        projDesc.textContent = proj.details;
+      } else {
+        projBadge.textContent = "No License Detected";
+        projDesc.textContent = "Missing LICENSE file in repository root. Default copyright restrictions apply.";
+      }
+
+      // License conflicts list
+      const conflictsContainer = document.getElementById('license-conflicts-list');
+      if (report.license_issues && report.license_issues.length) {
+        conflictsContainer.innerHTML = report.license_issues.map(iss => `
+          <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs">
+            <div class="flex items-center space-x-2 font-bold text-rose-800 text-sm">
+              <span>⚠️ ${iss.title}</span>
+            </div>
+            <p class="text-rose-700 mt-1">${iss.description}</p>
+            <div class="mt-2 text-rose-900 font-semibold">Remediation: ${iss.recommendation}</div>
+          </div>
+        `).join('');
+      } else {
+        conflictsContainer.innerHTML = `
+          <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-4 text-xs text-emerald-800 flex items-center space-x-2">
+            <span class="text-base font-bold">✓</span>
+            <span>All audited package licenses are compatible with the repository license. No copyleft conflicts detected.</span>
+          </div>
+        `;
+      }
+
+      // Dependencies table
+      const tbody = document.getElementById('dependencies-table-body');
+      if (!report.dependencies || !report.dependencies.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">No dependencies declared in requirements.txt</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = report.dependencies.map(dep => {
+        let compBadge = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        if (dep.license.compatibility === 'INCOMPATIBLE') {
+          compBadge = "bg-rose-50 text-rose-700 border-rose-200";
+        } else if (dep.license.compatibility === 'WARNING') {
+          compBadge = "bg-amber-50 text-amber-700 border-amber-200";
+        }
+
+        return `
+          <tr class="hover:bg-slate-50/70 transition">
+            <td class="py-3 px-4 font-bold text-slate-800">
+              <a href="${dep.pypi_url}" target="_blank" class="hover:text-indigo-600 transition inline-flex items-center space-x-1">
+                <span>${dep.package_name}</span>
+                <span class="text-slate-400 text-xs">↗</span>
+              </a>
+            </td>
+            <td class="py-3 px-4 font-mono text-slate-600">${dep.specified_version}</td>
+            <td class="py-3 px-4 font-semibold text-slate-800">${dep.license.spdx_id}</td>
+            <td class="py-3 px-4 text-slate-600">${dep.license.category}</td>
+            <td class="py-3 px-4 text-slate-500">${dep.source}</td>
+            <td class="py-3 px-4 text-center">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${compBadge}">
+                ${dep.license.compatibility}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderSecretsTab(secrets) {
+      const container = document.getElementById('secrets-issues-list');
+      if (!secrets || !secrets.length) {
+        container.innerHTML = `
+          <div class="bg-white rounded-xl border border-slate-200 p-8 text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto text-xl font-bold mb-2">✓</div>
+            <h4 class="font-bold text-slate-800">No Hardcoded Secrets Detected</h4>
+            <p class="text-xs text-slate-500 mt-1">No API keys, credentials, or private cryptographic keys discovered in repository files.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = secrets.map(sec => {
+        const isCrit = sec.severity === 'CRITICAL';
+        const sevClass = isCrit ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="px-2.5 py-0.5 rounded-md text-xs font-bold border ${sevClass}">
+                  ${sec.severity}
+                </span>
+                <span class="font-mono text-xs font-semibold text-slate-500">${sec.id}</span>
+              </div>
+              <div class="flex items-center space-x-3 text-xs">
+                <span class="font-mono text-slate-500 truncate">${sec.file_path}:${sec.line_number || 0}</span>
+                <button onclick="openCodeViewer('${sec.file_path}', ${sec.line_number || 1}, '${encodeURIComponent(sec.title)}', '${encodeURIComponent(sec.recommendation)}')" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-indigo-600 font-semibold transition">
+                  🔍 View Code
+                </button>
+              </div>
+            </div>
+
+            <h4 class="text-base font-bold text-slate-900 mt-2">${sec.title}</h4>
+            <p class="text-xs text-slate-600 mt-1">${sec.description}</p>
+
+            <div class="mt-3 p-2.5 rounded-lg bg-rose-50/70 border border-rose-100 flex items-center space-x-2 text-xs">
+              <span class="font-semibold text-rose-800">Masked Token:</span>
+              <code class="text-rose-900 font-bold tracking-wider">${sec.masked_value}</code>
+            </div>
+
+            ${sec.code_snippet ? `
+              <div class="mt-3 bg-slate-950 text-slate-100 rounded-lg p-3 text-xs font-mono overflow-x-auto border border-slate-800">
+                <pre>${escapeHtml(sec.code_snippet)}</pre>
+              </div>
+            ` : ''}
+
+            <div class="mt-3 p-3 rounded-lg bg-amber-50/70 border border-amber-100 text-xs text-amber-900">
+              <strong>Remediation:</strong> ${sec.recommendation}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderHygieneTab(checks, otherIssues) {
+      const tbody = document.getElementById('hygiene-table-body');
+      tbody.innerHTML = checks.map(chk => {
+        let statusBadge = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        if (chk.status === 'FAIL') {
+          statusBadge = "bg-rose-50 text-rose-700 border-rose-200";
+        } else if (chk.status === 'WARNING') {
+          statusBadge = "bg-amber-50 text-amber-700 border-amber-200";
+        }
+
+        return `
+          <tr class="hover:bg-slate-50/70 transition">
+            <td class="py-3 px-4 font-bold text-slate-800 flex items-center space-x-2">
+              <span>📄</span>
+              <span>${chk.file_name}</span>
+            </td>
+            <td class="py-3 px-4 text-center font-medium text-slate-500">${chk.required ? 'Mandatory' : 'Recommended'}</td>
+            <td class="py-3 px-4 text-center">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${statusBadge}">
+                ${chk.status}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right font-mono text-slate-600">${chk.exists ? `${chk.file_size_bytes} B` : '-'}</td>
+            <td class="py-3 px-4 text-slate-600">
+              <div>${chk.description}</div>
+              ${(!chk.exists || chk.status !== 'PASS') ? `<div class="text-indigo-600 font-medium mt-0.5">Tip: ${chk.recommendation}</div>` : ''}
+            </td>
+            <td class="py-3 px-4 text-center">
+              ${!chk.exists ? `
+                <button onclick="openTemplateModal('${chk.file_name}')" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs transition border border-indigo-200">
+                  ⚡ Template
+                </button>
+              ` : `
+                <span class="text-emerald-600 text-xs font-semibold">✓ Intact</span>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Render extra hygiene warnings (e.g. .env committed, .pyc leftover)
+      const extraContainer = document.getElementById('hygiene-extra-list');
+      const nonBaseline = otherIssues ? otherIssues.filter(i => !i.id.startsWith("HYG-MISSING")) : [];
+
+      if (nonBaseline.length) {
+        extraContainer.innerHTML = nonBaseline.map(iss => `
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs">
+            <div class="flex items-center space-x-2 font-bold text-amber-800 text-sm">
+              <span>⚠️ ${iss.title}</span>
+            </div>
+            <p class="text-amber-700 mt-1">${iss.description}</p>
+            <div class="mt-2 text-amber-900 font-semibold">Fix: ${iss.recommendation}</div>
+          </div>
+        `).join('');
+      } else {
+        extraContainer.innerHTML = '';
+      }
+    }
+
+    async function loadHistory() {
+      try {
+        const res = await fetch('/api/history');
+        if (!res.ok) return;
+        const scans = await res.json();
+        const tbody = document.getElementById('history-table-body');
+
+        if (!scans.length) {
+          tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">No previous scans recorded.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = scans.map(s => `
+          <tr class="hover:bg-slate-50/70 transition">
+            <td class="py-3 px-4 font-mono text-slate-500">${s.timestamp}</td>
+            <td class="py-3 px-4 font-bold text-slate-800">${s.repo_name}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${s.health_score}/100</td>
+            <td class="py-3 px-4 text-center font-bold text-indigo-700">${s.grade}</td>
+            <td class="py-3 px-4 text-center font-bold text-rose-600">${s.critical_count}</td>
+            <td class="py-3 px-4 text-center font-bold text-amber-600">${s.warning_count}</td>
+            <td class="py-3 px-4 text-center">
+              <button onclick="loadPastScan(${s.id})" class="px-2.5 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-indigo-600 text-xs font-semibold">
+                Load
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (e) {}
+    }
+
+    async function loadPastScan(scanId) {
+      try {
+        const res = await fetch(`/api/scan/${scanId}`);
+        if (!res.ok) return;
+        const report = await res.json();
+        currentReport = report;
+        renderReport(report);
+        switchTab('ast');
+      } catch (e) {}
+    }
+
+    // Code Viewer Modal Logic
+    async function openCodeViewer(filePath, flaggedLine, title, rec) {
+      document.getElementById('modal-file-path').textContent = filePath;
+      document.getElementById('modal-issue-title').textContent = decodeURIComponent(title);
+      document.getElementById('modal-recommendation').textContent = decodeURIComponent(rec);
+
+      const container = document.getElementById('modal-code-container');
+      container.innerHTML = `<div class="p-4 text-slate-400">Loading source code...</div>`;
+      document.getElementById('code-modal').classList.remove('hidden');
+
+      try {
+        const repoPath = currentReport ? currentReport.repo_path : '.';
+        const res = await fetch(`/api/file-content?repo_path=${encodeURIComponent(repoPath)}&file_path=${encodeURIComponent(filePath)}&line=${flaggedLine}`);
+        if (!res.ok) throw new Error("Could not load file source.");
+        const data = await res.json();
+
+        const rendered = data.lines.map((line, idx) => {
+          const lineNum = idx + 1;
+          const isFlagged = lineNum === flaggedLine;
+          const lineClass = isFlagged
+            ? 'bg-rose-950/80 text-rose-200 border-l-4 border-rose-500 font-bold'
+            : 'text-slate-300 hover:bg-slate-900/50';
+
+          return `
+            <div class="flex items-start py-0.5 px-3 ${lineClass}">
+              <span class="w-10 text-slate-500 select-none text-right pr-4 shrink-0">${lineNum}</span>
+              <span class="whitespace-pre flex-1">${escapeHtml(line)}</span>
+              ${isFlagged ? '<span class="ml-2 text-[10px] uppercase font-bold text-rose-400 bg-rose-900/50 px-1.5 py-0.5 rounded shrink-0">Flagged</span>' : ''}
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = rendered;
+      } catch (err) {
+        // Fallback: check if the issue has a code snippet in currentReport
+        let fallbackSnippet = null;
+        if (currentReport) {
+          const allIssues = (currentReport.ast_issues || []).concat(currentReport.secret_issues || []);
+          const matched = allIssues.find(i => i.file_path === filePath && (i.line_number === flaggedLine || decodeURIComponent(title) === i.title));
+          if (matched && matched.code_snippet) {
+            fallbackSnippet = matched.code_snippet;
+          }
+        }
+        if (fallbackSnippet) {
+          container.innerHTML = `
+            <div class="p-3 bg-indigo-950 text-indigo-300 text-xs border-b border-indigo-900/60 flex items-center space-x-2">
+              <span>ℹ️ Scanned Context Snippet:</span>
+            </div>
+            <pre class="p-4 text-slate-200 leading-relaxed overflow-x-auto">${escapeHtml(fallbackSnippet)}</pre>
+          `;
+        } else {
+          container.innerHTML = `<div class="p-4 text-rose-400">Failed to load file contents: ${err.message}</div>`;
+        }
+      }
+    }
+
+    function closeCodeModal() {
+      document.getElementById('code-modal').classList.add('hidden');
+    }
+
+    // Template Modal Logic
+    async function openTemplateModal(fileName) {
+      document.getElementById('template-modal-title').textContent = fileName;
+      const body = document.getElementById('template-modal-body');
+      body.textContent = "Loading boilerplate...";
+      document.getElementById('copy-status').classList.add('hidden');
+      document.getElementById('template-modal').classList.remove('hidden');
+
+      try {
+        const res = await fetch(`/api/template/${encodeURIComponent(fileName)}`);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        body.textContent = data.content;
+      } catch (e) {
+        body.textContent = `# ${fileName}\n\nDocument details here.`;
+      }
+    }
+
+    function closeTemplateModal() {
+      document.getElementById('template-modal').classList.add('hidden');
+    }
+
+    function copyTemplateText() {
+      const text = document.getElementById('template-modal-body').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const status = document.getElementById('copy-status');
+        status.classList.remove('hidden');
+        setTimeout(() => status.classList.add('hidden'), 2500);
+      });
+    }
+
+    // Export Helpers
+    function exportHtmlReport() {
+      if (!currentReport) return;
+      if (currentReport.repo_path && !currentReport.repo_path.startsWith('[Upload]') && !currentReport.repo_path.startsWith('[GitHub]')) {
+        window.location.href = `/api/export/html?path=${encodeURIComponent(currentReport.repo_path)}`;
+      } else if (currentReport.id) {
+        window.location.href = `/api/export/html?scan_id=${currentReport.id}`;
+      } else {
+        window.print();
+      }
+    }
+
+    function exportJsonReport() {
+      if (!currentReport) return;
+      try {
+        const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const safeName = (currentReport.repo_name || 'audit').replace(/[^a-zA-Z0-9_\-\.]/g, '_');
+        a.download = `repoguard_report_${safeName}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        window.location.href = `/api/export/json?path=${encodeURIComponent(currentReport.repo_path)}`;
+      }
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      const tabs = ['ast', 'license', 'secrets', 'hygiene', 'history'];
+      tabs.forEach(t => {
+        const pane = document.getElementById('tab-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (t === tabId) {
+          pane.classList.remove('hidden');
+          btn.classList.add('text-indigo-600', 'border-indigo-600');
+          btn.classList.remove('text-slate-500', 'border-transparent');
+        } else {
+          pane.classList.add('hidden');
+          btn.classList.remove('text-indigo-600', 'border-indigo-600');
+          btn.classList.add('text-slate-500', 'border-transparent');
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return (str || '')
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

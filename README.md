@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Build Status: 28 Passed](https://img.shields.io/badge/Tests-28%20Passed-emerald.svg)](#)
+[![Build Status: 40 Passed](https://img.shields.io/badge/Tests-40%20Passed-emerald.svg)](#)
 
 ---
 
@@ -124,6 +124,7 @@ flowchart TD
    - Repository path input with quick presets (`Vulnerable Demo`, `Clean Demo`, `RepoGuard Workspace`).
    - Tabbed results view: AST Security | License Compliance | Secrets | Repo Hygiene | Scan History.
    - **Line-by-line Code Viewer modal** highlighting the exact flagged line with line numbers and fix recommendations.
+   - **Remote GitHub Repository Scanning:** In-memory auditing of any public GitHub repository URL (`https://github.com/{owner}/{repo}`) via `/api/scan-github` or the dashboard dropzone interface. Downloaded as an archive strictly in memory (`io.BytesIO`) without writing repository code to cloud disk, making it ideal for cloud and containerized deployments.
    - **One-Click Export:** Download self-contained, standalone `repoguard_report.html` and `repoguard_report.json`.
    - **Template Generator:** One-click boilerplate generation for missing hygiene files (`SECURITY.md`, `CONTRIBUTING.md`, etc.).
 
@@ -182,17 +183,32 @@ python repoguard_cli.py --serve --port 8000
 ```
 Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)** in your browser to interact with the visual dashboard.
 
+### 4. Remote GitHub Repository URL Scanning (Cloud & Web)
+Audit any public GitHub repository instantly without needing to clone it locally or persist files to server disk:
+
+1. **Via Dashboard UI:**
+   - Open the web dashboard at `http://127.0.0.1:8000`.
+   - Paste any public GitHub URL (e.g. `https://github.com/psf/requests` or `https://github.com/pallets/flask.git`) into the dedicated **Public GitHub Repository Scan** input.
+   - Click **Scan GitHub Repo**. RepoGuard streams the archive in-memory (`io.BytesIO`), runs the full audit pipeline, and displays the compliance dashboard with flagged lines and interactive fix recommendations.
+
+2. **Via REST API:**
+   ```bash
+   curl -X POST http://127.0.0.1:8000/api/scan-github \
+     -F "repo_url=https://github.com/pallets/flask"
+   ```
+   *Archives are held strictly in memory with zero cloud disk persistence and automatic cleanup.*
+
 ---
 
 ## 6. Running the Automated Test Suite
 
-RepoGuard includes a comprehensive test suite covering AST parsing, regex secrets, license compatibility matrices, hygiene rules, CLI exports, and FastAPI endpoints.
+RepoGuard includes a comprehensive test suite covering AST parsing, regex secrets, license compatibility matrices, hygiene rules, GitHub in-memory loader, CLI exports, and FastAPI endpoints.
 
 ```bash
 python -m pytest -v
 ```
 
-**Results:** `24 passed in 1.77s`
+**Results:** `40 passed in 4.26s`
 
 ---
 
