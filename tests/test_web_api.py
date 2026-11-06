@@ -38,6 +38,12 @@ def test_static_css_endpoint(client: TestClient):
     assert response.status_code == 200
     assert "text/css" in response.headers.get("content-type", "")
     assert "--color-brand" in response.text
+    # Verify local compiled utility classes and responsive breakpoints are present
+    assert ".flex {" in response.text
+    assert ".grid {" in response.text
+    assert ".bg-white {" in response.text
+    assert ".max-w-7xl {" in response.text
+    assert "@media (min-width: 640px)" in response.text
 
 
 def test_api_scan_endpoint(client: TestClient):
