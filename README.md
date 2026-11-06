@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Build Status: 40 Passed](https://img.shields.io/badge/Tests-40%20Passed-emerald.svg)](#)
+[![Build Status: 42 Passed](https://img.shields.io/badge/Tests-42%20Passed-emerald.svg)](#)
 
 ---
 
@@ -208,7 +208,7 @@ RepoGuard includes a comprehensive test suite covering AST parsing, regex secret
 python -m pytest -v
 ```
 
-**Results:** `40 passed in 4.26s`
+**Results:** `42 passed in 4.38s`
 
 ---
 

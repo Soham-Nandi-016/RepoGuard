@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Optional, Dict, List
 from fastapi import FastAPI, Request, HTTPException, Query, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
@@ -32,6 +33,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Static files setup
+STATIC_DIR = Path(__file__).parent / "static"
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
 # Template setup
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
@@ -44,6 +50,7 @@ class ScanRequest(BaseModel):
 
 
 @app.get("/", response_class=HTMLResponse)
+@app.get("/index.html", response_class=HTMLResponse)
 async def dashboard(request: Request):
     """Render the modern light-theme RepoGuard dashboard."""
     recent_scans = db.get_recent_scans(limit=10)

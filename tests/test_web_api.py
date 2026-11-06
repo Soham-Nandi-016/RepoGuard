@@ -19,8 +19,25 @@ def test_dashboard_endpoint(client: TestClient):
     assert "RepoGuard" in response.text
     assert "Protect Every Repository" in response.text
     assert "GPLv3 License" in response.text
+    assert "https://cdn.tailwindcss.com" in response.text
+    assert "/static/css/styles.css" in response.text
+    assert "github-scan-btn" in response.text
     assert "University of Mumbai" not in response.text
     assert "ITL709" not in response.text
+
+
+def test_index_html_endpoint(client: TestClient):
+    response = client.get("/index.html")
+    assert response.status_code == 200
+    assert "RepoGuard" in response.text
+    assert "https://cdn.tailwindcss.com" in response.text
+
+
+def test_static_css_endpoint(client: TestClient):
+    response = client.get("/static/css/styles.css")
+    assert response.status_code == 200
+    assert "text/css" in response.headers.get("content-type", "")
+    assert "--color-brand" in response.text
 
 
 def test_api_scan_endpoint(client: TestClient):
